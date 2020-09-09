@@ -3,6 +3,7 @@ package com.toyhospital.queryapp.back_end.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,14 +24,15 @@ public class Repair {
     @ManyToMany
     @JoinTable(
             name = "toys_repairs",
-            joinColumns = {@JoinColumn(name = "repair_id")},
+            joinColumns = {@JoinColumn(name = "repair_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "toy_id", nullable = true)}
     )
-    private List<Toy> toys;
+    private ArrayList<Toy> toys;
 
     public Repair(String name, double price) {
         this.name = name;
         this.price = price;
+        this.toys = new ArrayList<Toy>();
     }
 
     public Repair() {};
