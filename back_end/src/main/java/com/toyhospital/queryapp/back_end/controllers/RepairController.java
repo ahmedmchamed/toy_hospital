@@ -1,4 +1,34 @@
 package com.toyhospital.queryapp.back_end.controllers;
 
+import com.toyhospital.queryapp.back_end.models.Repair;
+import com.toyhospital.queryapp.back_end.repositories.RepairRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+//@CrossOrigin?? - Something to specify where requests are allowed to come from!
 public class RepairController {
+
+    @Autowired
+    RepairRepository repairRepository;
+
+    @GetMapping(value = "/repairs")
+    public ResponseEntity<List<Repair>> getAllRepairs(){
+        List<Repair> foundRepairs = repairRepository.findAll();
+        return new ResponseEntity<>(foundRepairs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/repairs/{:id}")
+    public ResponseEntity getRepairById(@PathVariable Long id){
+        Optional<Repair> foundRepair = repairRepository.findById(id);
+        return new ResponseEntity<>(foundRepair, HttpStatus.OK);
+    }
+
 }
