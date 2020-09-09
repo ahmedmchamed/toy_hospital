@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="toys")
@@ -35,7 +36,7 @@ public class Toy {
             joinColumns = {@JoinColumn(name = "toy_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "repair_id", nullable = false, updatable = false)}
     )
-    private ArrayList<Repair> repair;
+    private List<Repair> repair;
 
     @JsonIgnoreProperties({"toys"})
     @ManyToOne
@@ -43,7 +44,7 @@ public class Toy {
     private Customer customer;
 
     @Column(name = "photos")
-    private ArrayList<String> photos;
+    private List<String> photos;
 
     public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer) {
         this.name = name;
@@ -106,7 +107,7 @@ public class Toy {
         this.repairFromCustomer = repairFromCustomer;
     }
 
-    public ArrayList<Repair> getRepair() {
+    public List<Repair> getRepair() {
         return repair;
     }
 
@@ -114,7 +115,7 @@ public class Toy {
         this.repair = repair;
     }
 
-    public ArrayList<String> getPhotos() {
+    public List<String> getPhotos() {
         return photos;
     }
 

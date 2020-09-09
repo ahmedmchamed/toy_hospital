@@ -27,7 +27,7 @@ public class Repair {
             joinColumns = {@JoinColumn(name = "repair_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "toy_id", nullable = true)}
     )
-    private ArrayList<Toy> toys;
+    private List<Toy> toys;
 
     public Repair(String name, double price) {
         this.name = name;
@@ -59,5 +59,13 @@ public class Repair {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List<Toy> getToys() {
+        return toys;
+    }
+
+    public void setToys(List<Toy> toys) {
+        this.toys = toys;
     }
 }
