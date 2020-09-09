@@ -37,15 +37,21 @@ public class Toy {
     )
     private ArrayList<Repair> repair;
 
+    @JsonIgnoreProperties({"toys"})
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
     @Column(name = "photos")
     private ArrayList<String> photos;
 
-    public Toy(String name, String type, int age, double size, String repairFromCustomer) {
+    public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer) {
         this.name = name;
         this.type = type;
         this.age = age;
         this.size = size;
         this.repairFromCustomer = repairFromCustomer;
+        this.customer = customer;
         this.repair = new ArrayList<Repair>();
         this.photos = new ArrayList<String>();
     }
@@ -118,5 +124,13 @@ public class Toy {
 
     public void addRepair(Repair repair) {
         this.repair.add(repair);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
