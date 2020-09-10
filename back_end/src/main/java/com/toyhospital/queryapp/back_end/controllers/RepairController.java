@@ -5,9 +5,7 @@ import com.toyhospital.queryapp.back_end.repositories.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +27,12 @@ public class RepairController {
     public ResponseEntity getRepairById(@PathVariable Long id){
         Optional<Repair> foundRepair = repairRepository.findById(id);
         return new ResponseEntity<>(foundRepair, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/repairs")
+    public ResponseEntity<Repair> postRepair(@RequestBody Repair repair) {
+        Repair newRepair = repairRepository.save(repair);
+        return new ResponseEntity<>(newRepair, HttpStatus.CREATED);
     }
 
 }
