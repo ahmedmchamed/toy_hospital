@@ -22,10 +22,24 @@ public class CustomerController {
         return new ResponseEntity<>(foundCustomers, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/customers/{:id}")
+    @GetMapping(value = "/customers/{id}")
     public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id){
         Optional<Customer> foundCustomer = customerRepository.findById(id);
         return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "customers/{id}")
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+        Customer customerToUpdate = customerRepository.findById(id).get();
+
+        customerToUpdate.setName(customer.getName());
+        customerToUpdate.setAddress(customer.getAddress());
+        customerToUpdate.setEmail(customer.getEmail());
+        customerToUpdate.setPhoneNumber(customer.getPhoneNumber());
+        customerToUpdate.setToys(customer.getToys());
+
+        customerRepository.save(customerToUpdate);
+        return new ResponseEntity<>(customerToUpdate, HttpStatus.OK);
     }
 
     @PostMapping(value = "/customers")

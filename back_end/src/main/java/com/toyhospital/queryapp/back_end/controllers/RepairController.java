@@ -23,10 +23,22 @@ public class RepairController {
         return new ResponseEntity<>(foundRepairs, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/repairs/{:id}")
-    public ResponseEntity getRepairById(@PathVariable Long id){
+    @GetMapping(value = "/repairs/{id}")
+    public ResponseEntity<Optional<Repair>> getRepairById(@PathVariable Long id){
         Optional<Repair> foundRepair = repairRepository.findById(id);
         return new ResponseEntity<>(foundRepair, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/repairs/{id}")
+    public ResponseEntity<Repair> updateRepair(@RequestBody Repair repair, @PathVariable Long id) {
+        Repair repairToUpdate = repairRepository.findById(id).get();
+
+        repairToUpdate.setName(repair.getName());
+        repairToUpdate.setPrice(repair.getPrice());
+        repairToUpdate.setToys(repair.getToys());
+
+        repairRepository.save(repairToUpdate);
+        return new ResponseEntity<>(repairToUpdate, HttpStatus.OK);
     }
 
     @PostMapping(value = "/repairs")

@@ -28,6 +28,23 @@ public class ToyController {
         return new ResponseEntity<>(foundToy, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/toys/{id}")
+    public ResponseEntity<Toy> updateToy(@RequestBody Toy toy, @PathVariable Long id) {
+        Toy toyToUpdate = toyRepository.findById(id).get();
+
+        toyToUpdate.setAge(toy.getAge());
+        toyToUpdate.setCustomer(toy.getCustomer());
+        toyToUpdate.setName(toy.getName());
+        toyToUpdate.setPhotos(toy.getPhotos());
+        toyToUpdate.setRepair(toy.getRepair());
+        toyToUpdate.setRepairFromCustomer(toy.getRepairFromCustomer());
+        toyToUpdate.setSize(toy.getSize());
+        toyToUpdate.setType(toy.getType());
+
+        toyRepository.save(toyToUpdate);
+        return new ResponseEntity<>(toyToUpdate, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/toys")
     public ResponseEntity<Toy> postToy(@RequestBody Toy toy) {
         Toy newToy = toyRepository.save(toy);

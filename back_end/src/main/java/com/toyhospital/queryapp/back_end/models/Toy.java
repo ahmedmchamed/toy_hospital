@@ -111,7 +111,7 @@ public class Toy {
         return repair;
     }
 
-    public void setRepair(ArrayList<Repair> repair) {
+    public void setRepair(List<Repair> repair) {
         this.repair = repair;
     }
 
@@ -119,12 +119,8 @@ public class Toy {
         return photos;
     }
 
-    public void setPhotos(ArrayList<String> photos) {
+    public void setPhotos(List<String> photos) {
         this.photos = photos;
-    }
-
-    public void addRepair(Repair repair) {
-        this.repair.add(repair);
     }
 
     public Customer getCustomer() {
@@ -133,5 +129,9 @@ public class Toy {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void addRepair(Repair repair) {
+        this.repair.add(repair);
     }
 }

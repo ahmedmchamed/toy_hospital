@@ -68,4 +68,8 @@ public class Repair {
     public void setToys(List<Toy> toys) {
         this.toys = toys;
     }
+
+    public void addToy(Toy toy) {
+        this.toys.add(toy);
+    }
 }
