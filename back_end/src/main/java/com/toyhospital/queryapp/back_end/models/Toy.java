@@ -29,22 +29,22 @@ public class Toy {
     @Column(name = "repair_from_customer")
     private String repairFromCustomer;
 
+//    @Column(name = "photos")
+//    private List<String> photos;
+
+    @JsonIgnoreProperties({"toys"})
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = true)
+    private Customer customer;
+
     @JsonIgnoreProperties({"toys"})
     @ManyToMany
     @JoinTable(
             name = "toys_repairs",
-            joinColumns = {@JoinColumn(name = "toy_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "repair_id", nullable = false, updatable = false)}
+            joinColumns = {@JoinColumn(name = "toy_id", nullable = true, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "repair_id", nullable = true, updatable = false)}
     )
     private List<Repair> repair;
-
-    @JsonIgnoreProperties({"toys"})
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
-    @Column(name = "photos")
-    private List<String> photos;
 
     public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer) {
         this.name = name;
@@ -52,9 +52,9 @@ public class Toy {
         this.age = age;
         this.size = size;
         this.repairFromCustomer = repairFromCustomer;
+//        this.photos = new ArrayList<String>();
         this.customer = customer;
         this.repair = new ArrayList<Repair>();
-        this.photos = new ArrayList<String>();
     }
 
     public Toy() {}
@@ -115,13 +115,13 @@ public class Toy {
         this.repair = repair;
     }
 
-    public List<String> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<String> photos) {
-        this.photos = photos;
-    }
+//    public List<String> getPhotos() {
+//        return photos;
+//    }
+//
+//    public void setPhotos(List<String> photos) {
+//        this.photos = photos;
+//    }
 
     public Customer getCustomer() {
         return customer;

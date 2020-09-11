@@ -35,7 +35,7 @@ public class ToyController {
         toyToUpdate.setAge(toy.getAge());
         toyToUpdate.setCustomer(toy.getCustomer());
         toyToUpdate.setName(toy.getName());
-        toyToUpdate.setPhotos(toy.getPhotos());
+//        toyToUpdate.setPhotos(toy.getPhotos());
         toyToUpdate.setRepair(toy.getRepair());
         toyToUpdate.setRepairFromCustomer(toy.getRepairFromCustomer());
         toyToUpdate.setSize(toy.getSize());

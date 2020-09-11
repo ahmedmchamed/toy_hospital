@@ -20,7 +20,7 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "address")
@@ -35,7 +35,7 @@ public class Customer {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.toys = new ArrayList<>();
+        this.toys = new ArrayList<Toy>();
     }
 
     public Customer() {};
