@@ -17,6 +17,10 @@ class ToyForm extends Component {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCustomerName = this.handleCustomerName.bind(this);
+        this.handleCustomerEmail = this.handleCustomerEmail.bind(this);
+        this.handleCustomerPhoneNumber = this.handleCustomerPhoneNumber.bind(this);
+        this.handleCustomerAddress = this.handleCustomerAddress.bind(this);
     }
 
     handleCustomerName(event) {
@@ -43,8 +47,24 @@ class ToyForm extends Component {
         })
     }
 
-    handleSubmit() {
-
+    handleSubmit(event) {
+        event.preventDefault();
+        const url="http://localhost:8080/customers"
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "name": this.state.customerName,
+                "email": this.state.customerEmail,
+                "phone_number": this.state.customerPhoneNumber,
+                "address": this.state.customerAddress,
+                "toy": "[]"
+            })
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
     }
 
     render() {
@@ -63,6 +83,8 @@ class ToyForm extends Component {
 
                     <label htmlFor="customer-address">Customer address</label>
                     <input type="text" id="customer-address" value={this.state.customerAddress} onChange={this.handleCustomerAddress} name="address" />
+
+                    <input type="submit" value="Submit"/>
                 </form>
             </div>
             </>

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
 
     @Autowired
@@ -28,7 +29,7 @@ public class CustomerController {
         return new ResponseEntity<>(foundCustomer, HttpStatus.OK);
     }
 
-    @PutMapping(value = "customers/{id}")
+    @PutMapping(value = "/customers/{id}")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
         Customer customerToUpdate = customerRepository.findById(id).get();
 
