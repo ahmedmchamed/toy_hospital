@@ -29,20 +29,21 @@ public class Toy {
     @Column(name = "repair_from_customer")
     private String repairFromCustomer;
 
-//    @Column(name = "photos")
-//    private List<String> photos;
+    @JsonIgnoreProperties({"toy"})
+    @OneToMany(mappedBy = "toy", fetch = FetchType.EAGER)
+    private List<Photo> photos;
 
     @JsonIgnoreProperties({"toys"})
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = true)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @JsonIgnoreProperties({"toys"})
     @ManyToMany
     @JoinTable(
             name = "toys_repairs",
-            joinColumns = {@JoinColumn(name = "toy_id", nullable = true, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "repair_id", nullable = true, updatable = false)}
+            joinColumns = {@JoinColumn(name = "toy_id", updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "repair_id", updatable = false)}
     )
     private List<Repair> repair;
 
@@ -52,7 +53,7 @@ public class Toy {
         this.age = age;
         this.size = size;
         this.repairFromCustomer = repairFromCustomer;
-//        this.photos = new ArrayList<String>();
+        this.photos = new ArrayList<Photo>();
         this.customer = customer;
         this.repair = new ArrayList<Repair>();
     }
@@ -115,13 +116,13 @@ public class Toy {
         this.repair = repair;
     }
 
-//    public List<String> getPhotos() {
-//        return photos;
-//    }
-//
-//    public void setPhotos(List<String> photos) {
-//        this.photos = photos;
-//    }
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
 
     public Customer getCustomer() {
         return customer;

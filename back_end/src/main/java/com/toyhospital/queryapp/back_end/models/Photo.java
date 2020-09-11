@@ -1,5 +1,7 @@
 package com.toyhospital.queryapp.back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,5 +21,57 @@ public class Photo {
     @Lob
     private byte[] data;
 
+    @JsonIgnoreProperties({"photos"})
+    @ManyToOne
+    @JoinColumn(name = "toy_id", nullable = false)
+    private Toy toy;
 
+    public Photo(String name, String type, byte[] data, Toy toy) {
+        this.name = name;
+        this.type = type;
+        this.data = data;
+        this.toy = toy;
+    }
+
+    public Photo() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public Toy getToy() {
+        return toy;
+    }
+
+    public void setToy(Toy toy) {
+        this.toy = toy;
+    }
 }

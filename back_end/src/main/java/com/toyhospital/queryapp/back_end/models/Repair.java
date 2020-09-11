@@ -24,8 +24,8 @@ public class Repair {
     @ManyToMany
     @JoinTable(
             name = "toys_repairs",
-            joinColumns = {@JoinColumn(name = "repair_id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "toy_id", nullable = true)}
+            joinColumns = {@JoinColumn(name = "repair_id")},
+            inverseJoinColumns = {@JoinColumn(name = "toy_id")}
     )
     private List<Toy> toys;
 

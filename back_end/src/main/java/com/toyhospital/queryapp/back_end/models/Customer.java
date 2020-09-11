@@ -27,7 +27,7 @@ public class Customer {
     private String address;
 
     @JsonIgnoreProperties("customer")
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Toy> toys;
 
     public Customer(String name, String email, String phoneNumber, String address) {
