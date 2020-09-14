@@ -34,12 +34,14 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Photo> uploadPhoto(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("toy") Toy toy) throws IOException {
+    public ResponseEntity<Photo> uploadPhoto(@RequestParam(value = "file", required = false) MultipartFile file,
+                                             @RequestParam(value = "toy", required = false) Toy toy) throws IOException {
         String filename = file.getOriginalFilename();
         Photo newPhoto = new Photo(filename, file.getContentType(), file.getBytes(), toy);
 
-        return new ResponseEntity<>(photoRepository.save(newPhoto), HttpStatus.CREATED);
+        Photo returnPhoto = photoRepository.save(newPhoto);
+
+        return new ResponseEntity<>(returnPhoto, HttpStatus.CREATED);
     }
 
 }
