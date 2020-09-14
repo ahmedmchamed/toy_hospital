@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,14 +35,23 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Photo> uploadPhoto(@RequestParam(value = "file", required = false) MultipartFile file,
-                                             @RequestParam(value = "toy", required = false) Toy toy) throws IOException {
-        String filename = file.getOriginalFilename();
-        Photo newPhoto = new Photo(filename, file.getContentType(), file.getBytes(), toy);
+    public ResponseEntity<List<Photo>> uploadPhoto(@RequestParam(value = "files", required = false) MultipartFile[] files,
+                                                   @RequestParam(value = "toy", required = false) Toy toy) throws IOException {
 
-        Photo returnPhoto = photoRepository.save(newPhoto);
+        List<Photo> newPhotos = new ArrayList<Photo>();
 
-        return new ResponseEntity<>(returnPhoto, HttpStatus.CREATED);
+        for(int i = 0; i < files.length; i++) {
+            String filename = files[i].getOriginalFilename();
+            Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), null);
+            newPhotos.add(newPhoto);
+        }
+
+//        String filename = files.getOriginalFilename();
+//        Photo newPhoto = new Photo(filename, files.getContentType(), files.getBytes(), null);
+
+        return new ResponseEntity<>(newPhotos, HttpStatus.CREATED);
+
+//        return new ResponseEntity<>(newPhoto, HttpStatus.CREATED);
     }
 
 }

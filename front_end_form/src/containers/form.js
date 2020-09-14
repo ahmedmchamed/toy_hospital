@@ -98,6 +98,10 @@ class ToyForm extends Component {
         event.preventDefault();
         const customerPostUrl = "http://localhost:8080/customers";
         const toyPostUrl = "http://localhost:8080/toys";
+        const photoPostUrl = "http://localhost:8080/upload";
+
+        let files = new FormData();
+        files.append("files", this.state.customerPhotos[0])
 
         fetch(customerPostUrl, {
             method: "POST",
@@ -125,6 +129,17 @@ class ToyForm extends Component {
                     "size": this.state.toySize,
                     "repairFromCustomer": this.state.customerRepairDescription,
                     "customer": addedCustomer
+                })
+            })
+            .then(toyJsonRes => toyJsonRes.json())
+            .then(addedToy => {
+                // files.append("toy", JSON.stringify(addedToy))
+                fetch(photoPostUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    body: files
                 })
             })
         })
