@@ -105,9 +105,9 @@ class ToyForm extends Component {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "customer_name": this.state.customerName,
+                "name": this.state.customerName,
                 "email": this.state.customerEmail,
-                "phone_number": this.state.customerPhoneNumber,
+                "phoneNumber": this.state.customerPhoneNumber,
                 "address": this.state.customerAddress
             })
         })
@@ -119,11 +119,11 @@ class ToyForm extends Component {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "toy_name": this.state.toyName,
+                    "name": this.state.toyName,
                     "type": this.state.toyType,
                     "age": this.state.toyAge,
                     "size": this.state.toySize,
-                    "repair_from_customer": this.state.customerRepairDescription,
+                    "repairFromCustomer": this.state.customerRepairDescription,
                     "customer": addedCustomer
                 })
             })
@@ -148,7 +148,7 @@ class ToyForm extends Component {
                     <input type="text" id="customer-address" value={this.state.customerAddress} onChange={this.handleCustomerAddress} name="address" />
 
                     <label htmlFor="toy-name">Toy name</label>
-                    <input type="text" id="toy-name" value={this.state.toyName} onChange={this.handleToyName} name="customer_name" />
+                    <input type="text" id="toy-name" value={this.state.toyName} onChange={this.handleToyName} name="toy_name" />
 
                     <label htmlFor="toy-type">Toy type</label>
                     <select value={this.state.toyType} onChange={this.handleToyType}>
