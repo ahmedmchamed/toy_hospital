@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import Login from "./components/Login";
+import ToyHospitalContainer from "./containers/ToyHospitalContainer";
 
 function App() {
   return (
-    <Login />
+    <ToyHospitalContainer />
   );
 }
 
