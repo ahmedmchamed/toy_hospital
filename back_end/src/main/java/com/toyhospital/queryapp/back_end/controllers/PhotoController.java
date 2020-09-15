@@ -1,8 +1,11 @@
 package com.toyhospital.queryapp.back_end.controllers;
 
+import com.toyhospital.queryapp.back_end.models.Customer;
 import com.toyhospital.queryapp.back_end.models.Photo;
 import com.toyhospital.queryapp.back_end.models.Toy;
+import com.toyhospital.queryapp.back_end.repositories.CustomerRepository;
 import com.toyhospital.queryapp.back_end.repositories.PhotoRepository;
+import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,13 @@ import java.util.Optional;
 public class PhotoController {
 
     @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
     PhotoRepository photoRepository;
+
+    @Autowired
+    ToyRepository toyRepository;
 
     @GetMapping(value = "/photos")
     public ResponseEntity<List<Photo>> getPhotos() {
@@ -35,33 +44,13 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files", required = false) MultipartFile files, @RequestBody Toy toy)
-            throws IOException {
+    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile files,
+                                              @RequestParam(value = "toy") Toy toy) throws IOException {
 
-//        try {
-//            List<Photo> newPhotos = new ArrayList<Photo>();
-//
-//            for (int i = 0; i < files.length; i++) {
-//                String filename = files[i].getOriginalFilename();
-//                Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), null);
-//                newPhotos.add(newPhoto);
-//            }
-//    try {
-        String filename = StringUtils.cleanPath(files.getOriginalFilename());
-        Photo newPhoto = new Photo(filename, files.getContentType(), files.getBytes(), toy);
-
-        return new ResponseEntity<>("Hooray", HttpStatus.CREATED);
-//    }
-//    catch (Exception e) {
-//        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Nope, error.");
-//    }
-
-//        }
-//        catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Teehee");
-//        }
-
-//        return new ResponseEntity<>(newPhoto, HttpStatus.CREATED);
+            String filename = StringUtils.cleanPath(files.getOriginalFilename());
+            Photo newPhoto = new Photo(filename, files.getContentType(), files.getBytes(), toy);
+            photoRepository.save(newPhoto);
+            return new ResponseEntity<>("Hooray", HttpStatus.CREATED);
     }
 
 }

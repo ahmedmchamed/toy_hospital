@@ -23,7 +23,7 @@ public class Photo {
 
     @JsonIgnoreProperties({"photos"})
     @ManyToOne
-    @JoinColumn(name = "toy_id")
+    @JoinColumn(name = "toy_id", nullable = true)
     private Toy toy;
 
     public Photo(String name, String type, byte[] data, Toy toy) {

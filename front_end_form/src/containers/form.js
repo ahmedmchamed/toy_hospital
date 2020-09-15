@@ -6,16 +6,16 @@ class ToyForm extends Component {
     constructor(props) {
         super();
         this.state = {
-            customerName: "",
-            customerEmail: "",
-            customerPhoneNumber: "",
-            customerAddress: "",
+            customerName: "ay",
+            customerEmail: "ay",
+            customerPhoneNumber: "ay",
+            customerAddress: "ay",
             customerPhotos: null,
-            toyName: "",
-            toyType: "",
-            toyAge: 0,
-            toySize: 0.0,
-            customerRepairDescription: ""
+            toyName: "ay",
+            toyType: "ay",
+            toyAge: 1,
+            toySize: 1.0,
+            customerRepairDescription: "ya"
         }
         this.fileUpload = React.createRef();
 
@@ -103,6 +103,8 @@ class ToyForm extends Component {
         let files = new FormData();
         files.append("files", this.state.customerPhotos[0])
 
+        let toy = new FormData();
+
         fetch(customerPostUrl, {
             method: "POST",
             headers: {
@@ -133,12 +135,11 @@ class ToyForm extends Component {
             })
             .then(toyJsonRes => toyJsonRes.json())
             .then(addedToy => {
-                // files.append("toy", JSON.stringify(addedToy))
+                files.append("toy", addedToy.id)
                 fetch(photoPostUrl, {
                     method: "POST",
                     body: files
                 })
-                .then(res => console.log(res))
             })
         })
     }
