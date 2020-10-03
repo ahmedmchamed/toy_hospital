@@ -44,13 +44,16 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile files,
+    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile[] files,
                                               @RequestParam(value = "toy") Toy toy) throws IOException {
 
-            String filename = StringUtils.cleanPath(files.getOriginalFilename());
-            Photo newPhoto = new Photo(filename, files.getContentType(), files.getBytes(), toy);
+        for (int i = 0; i < files.length; i++) {
+            String filename = StringUtils.cleanPath(files[i].getOriginalFilename());
+            Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), toy);
             photoRepository.save(newPhoto);
-            return new ResponseEntity<>("Hooray", HttpStatus.CREATED);
+        }
+        
+        return new ResponseEntity<>("Hooray", HttpStatus.CREATED);
     }
 
 }

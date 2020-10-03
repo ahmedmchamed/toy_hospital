@@ -101,7 +101,7 @@ class ToyForm extends Component {
         const photoPostUrl = "http://localhost:8080/upload";
 
         let files = new FormData();
-        files.append("files", this.state.customerPhotos[0])
+        files.append("files", this.state.customerPhotos)
 
         let toy = new FormData();
 
