@@ -1,6 +1,12 @@
-div.toy-form {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-  }
+.toy-form input {
+  display: block;
+  width: 20%;
+  margin-bottom: 1em;
+  color: black;
+}
+
+.toy-form label {
+  display: block;
+  margin-top: 1em;
+  width: 100%;
+}
