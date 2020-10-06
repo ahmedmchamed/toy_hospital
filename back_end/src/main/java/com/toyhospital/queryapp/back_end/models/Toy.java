@@ -39,6 +39,11 @@ public class Toy {
     private Customer customer;
 
     @JsonIgnoreProperties({"toys"})
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
+
+    @JsonIgnoreProperties({"toys"})
     @ManyToMany
     @JoinTable(
             name = "toys_repairs",
@@ -47,7 +52,7 @@ public class Toy {
     )
     private List<Repair> repair;
 
-    public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer) {
+    public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer, Staff staff) {
         this.name = name;
         this.type = type;
         this.age = age;
@@ -55,6 +60,7 @@ public class Toy {
         this.repairFromCustomer = repairFromCustomer;
         this.photos = new ArrayList<Photo>();
         this.customer = customer;
+        this.staff = staff;
         this.repair = new ArrayList<Repair>();
     }
 
@@ -134,5 +140,13 @@ public class Toy {
 
     public void addRepair(Repair repair) {
         this.repair.add(repair);
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 }

@@ -1,6 +1,10 @@
 package com.toyhospital.queryapp.back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "staff")
@@ -16,9 +20,14 @@ public class Staff {
     @Column(name = "last_name")
     private String lastName;
 
+    @JsonIgnoreProperties({"staff"})
+    @OneToMany(mappedBy = "staff", fetch = FetchType.EAGER)
+    private List<Toy> toys;
+
     public Staff(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.toys = new ArrayList<Toy>();
     }
 
     public Staff() {}
@@ -45,5 +54,17 @@ public class Staff {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Toy> getToys() {
+        return toys;
+    }
+
+    public void setToys(List<Toy> toys) {
+        this.toys = toys;
+    }
+
+    public void addToy(Toy toy) {
+        this.toys.add(toy);
     }
 }
