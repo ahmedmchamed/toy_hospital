@@ -11,24 +11,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class StaffController {
 
     @Autowired
     StaffRepository staffRepository;
 
-    @GetMapping(name = "/staff")
+    @GetMapping(value = "/staff")
     public ResponseEntity<List<Staff>> getAllStaff() {
         List<Staff> allStaff = staffRepository.findAll();
         return new ResponseEntity<List<Staff>>(allStaff, HttpStatus.OK);
     }
 
-    @GetMapping(name = "/staff/{id}")
+    @GetMapping(value = "/staff/{id}")
     public ResponseEntity<Optional<Staff>> getStaffById(@PathVariable Long id) {
         Optional<Staff> staffMember = staffRepository.findById(id);
         return new ResponseEntity<Optional<Staff>>(staffMember, HttpStatus.OK);
     }
 
-    @PostMapping(name = "/staff")
+    @PostMapping(value = "/staff")
     public ResponseEntity<Staff> postStaff(@RequestBody Staff staff) {
         Staff newStaffMember = staffRepository.save(staff);
         return new ResponseEntity<Staff>(newStaffMember, HttpStatus.CREATED);
