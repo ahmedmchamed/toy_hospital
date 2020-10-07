@@ -90,7 +90,7 @@ class ToyForm extends Component {
         this.setState({
             customerPhotos: this.fileUpload.current.files
         }, () => {
-            console.log(this.state.customerPhotos[0])
+            console.log(this.state.customerPhotos)
         })
     }
 
@@ -101,7 +101,10 @@ class ToyForm extends Component {
         const photoPostUrl = "http://localhost:8080/upload";
 
         let files = new FormData();
-        files.append("files", this.state.customerPhotos)
+        for (const photo of this.state.customerPhotos) {
+            files.append("files", photo)
+        }
+        // files.append("files", this.state.customerPhotos[0])
 
         let toy = new FormData();
 
