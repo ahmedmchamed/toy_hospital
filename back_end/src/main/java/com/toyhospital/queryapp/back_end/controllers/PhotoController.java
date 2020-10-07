@@ -56,6 +56,6 @@ public class PhotoController {
             throw new RuntimeException("Could not upload files");
         }
 
-        return new ResponseEntity<>("Hooray", HttpStatus.CREATED);
+        return new ResponseEntity<>("Files uploaded", HttpStatus.CREATED);
     }
 }
