@@ -14,7 +14,7 @@ public class Toy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "toy_name")
     private String name;
 
     @Column(name = "type")
