@@ -3,11 +3,9 @@ import React, { useState } from "react";
 const Home = () => {
 
 
-    render() {
-        return (
-
-        )
-    }
+    return (
+        <h1>You've successfully logged in!</h1>
+    )
 }
 
 export default Home;

@@ -1,10 +1,9 @@
 import axios from "axios"
 
-//Need to move into .env file
-const API_URL = "http://localhost:8080/api/auth/"
+const AUTH_URL = "http://localhost:8080/api/auth/"
 
-const register = (username, email, passwor) => {
-    return axios.post(API_URL + "signup", {
+const register = (username, email, password) => {
+    return axios.post(AUTH_URL + "signup", {
         username,
         email,
         password
@@ -12,7 +11,7 @@ const register = (username, email, passwor) => {
 };
 
 const login = (username, password) => {
-    return axios.post(API_URL + "signin", {
+    return axios.post(AUTH_URL + "signin", {
         username,
         password
     })

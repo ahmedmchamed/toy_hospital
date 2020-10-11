@@ -5,18 +5,16 @@ import Home from '../components/Home';
 
 const ToyHospital = () => {
 
-    render() {
-        return (
-            <Router>
-                <>
-                    <Switch>
-                    <Route exact path="/" component={Login} />
-                    <Route exact path="/home" component={Home} />
-                    </Switch>
-                </>
-            </Router>
-        )
-    }
+    return (
+        <Router>
+            <>
+                <Switch>
+                <Route exact path="/" component={Login} />
+                <Route exact path="/home" component={Home} />
+                </Switch>
+            </>
+        </Router>
+    )
 }
 
 export default ToyHospital;
