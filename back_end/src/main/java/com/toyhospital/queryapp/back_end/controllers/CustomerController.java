@@ -17,11 +17,6 @@ public class CustomerController {
     @Autowired
     CustomerRepository customerRepository;
 
-    @RequestMapping("/logged-in")
-    public String firstPage() {
-        return "SUCCESS!";
-    }
-
     @GetMapping(value = "/customers")
     public ResponseEntity<List<Customer>> getAllCustomers(){
         List<Customer> foundCustomers = customerRepository.findAll();

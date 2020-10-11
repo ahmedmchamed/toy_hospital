@@ -1,0 +1,8 @@
+package com.toyhospital.queryapp.back_end.models;
+
+public enum ERole {
+
+    ROLE_USER,
+    ROLE_ADMIN
+
+}

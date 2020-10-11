@@ -17,6 +17,7 @@ class Home extends Component {
     render() {
         return (
             <>
+                <p>{localStorage["authorization"]}</p>
                 <p>You've successfully logged in!</p>
                 <button onClick={this.handleLogOut}>Log Out</button>
             </>

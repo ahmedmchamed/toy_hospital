@@ -1,11 +1,7 @@
 package com.toyhospital.queryapp.back_end.components;
 
-import com.toyhospital.queryapp.back_end.models.Customer;
-import com.toyhospital.queryapp.back_end.models.Repair;
-import com.toyhospital.queryapp.back_end.models.Toy;
-import com.toyhospital.queryapp.back_end.repositories.CustomerRepository;
-import com.toyhospital.queryapp.back_end.repositories.RepairRepository;
-import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
+import com.toyhospital.queryapp.back_end.models.*;
+import com.toyhospital.queryapp.back_end.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,9 +17,24 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     ToyRepository toyRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
     public DataLoader() {}
 
     public void run(ApplicationArguments args) {
+
+        User sara = new User("saraemanuelsson", "sara256emanuelsson@gmail.com", "1234");
+        userRepository.save(sara);
+
+        Role admin = new Role(ERole.ROLE_ADMIN);
+        roleRepository.save(admin);
+
+        Role user = new Role(ERole.ROLE_USER);
+        roleRepository.save(user);
 
         Customer customer = new Customer("John", "aaa@aaa.com", "01234567", "100 Somewhere Lane");
         customerRepository.save(customer);

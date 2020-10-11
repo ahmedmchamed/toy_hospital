@@ -36,7 +36,7 @@ class Login extends Component {
     handleTest() {
         Axios.get("http://localhost:8080/logged-in")
         .then(res => {
-            if (res.data === "SUCCESS!") {
+            if (res.data === "Authorized") {
                 this.props.history.push("/home");
             } else {
                 alert("Authentication failure");
