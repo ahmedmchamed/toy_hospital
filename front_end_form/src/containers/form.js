@@ -104,7 +104,6 @@ class ToyForm extends Component {
         for (const photo of this.state.customerPhotos) {
             files.append("files", photo)
         }
-        // files.append("files", this.state.customerPhotos[0])
 
         let toy = new FormData();
 
