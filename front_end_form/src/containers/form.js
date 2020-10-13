@@ -6,16 +6,16 @@ class ToyForm extends Component {
     constructor(props) {
         super();
         this.state = {
-            customerName: "",
-            customerEmail: "",
-            customerPhoneNumber: "",
-            customerAddress: "",
+            customerName: "ay",
+            customerEmail: "ay",
+            customerPhoneNumber: "ay",
+            customerAddress: "ay",
             customerPhotos: null,
-            toyName: "",
-            toyType: "",
-            toyAge: 0,
-            toySize: 0.0,
-            customerRepairDescription: ""
+            toyName: "ay",
+            toyType: "ay",
+            toyAge: 1,
+            toySize: 1.0,
+            customerRepairDescription: "ya"
         }
         this.fileUpload = React.createRef();
 
@@ -98,6 +98,14 @@ class ToyForm extends Component {
         event.preventDefault();
         const customerPostUrl = "http://localhost:8080/customers";
         const toyPostUrl = "http://localhost:8080/toys";
+        const photoPostUrl = "http://localhost:8080/upload";
+
+        let files = new FormData();
+        for (const photo of this.state.customerPhotos) {
+            files.append("files", photo)
+        }
+
+        let toy = new FormData();
 
         fetch(customerPostUrl, {
             method: "POST",
@@ -127,13 +135,22 @@ class ToyForm extends Component {
                     "customer": addedCustomer
                 })
             })
+            .then(toyJsonRes => toyJsonRes.json())
+            .then(addedToy => {
+                files.append("toy", addedToy.id)
+                fetch(photoPostUrl, {
+                    method: "POST",
+                    body: files
+                })
+            })
         })
     }
 
     render() {
         return (
             <>
-            <div class="toy-form">
+            {/* <div className="toy-edit-form"> */}
+            <div className="toy-form">
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="customer-name">Customer name</label>
                     <input type="text" id="customer-name" value={this.state.customerName} onChange={this.handleCustomerName} name="customer_name" />
@@ -168,11 +185,12 @@ class ToyForm extends Component {
                     <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
 
                     <label htmlFor="customer-photo-upload">Upload your photos</label>
-                    <input type="file" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
+                    <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
 
                     <input type="submit" value="Submit"/>
                 </form>
             </div>
+            {/* </div> */}
             </>
         )
     }

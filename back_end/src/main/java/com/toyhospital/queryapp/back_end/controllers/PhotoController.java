@@ -1,16 +1,20 @@
 package com.toyhospital.queryapp.back_end.controllers;
 
-import antlr.StringUtils;
+import com.toyhospital.queryapp.back_end.models.Customer;
 import com.toyhospital.queryapp.back_end.models.Photo;
 import com.toyhospital.queryapp.back_end.models.Toy;
+import com.toyhospital.queryapp.back_end.repositories.CustomerRepository;
 import com.toyhospital.queryapp.back_end.repositories.PhotoRepository;
+import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +23,13 @@ import java.util.Optional;
 public class PhotoController {
 
     @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
     PhotoRepository photoRepository;
+
+    @Autowired
+    ToyRepository toyRepository;
 
     @GetMapping(value = "/photos")
     public ResponseEntity<List<Photo>> getPhotos() {
@@ -34,14 +44,18 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Photo> uploadPhoto(@RequestParam(value = "file", required = false) MultipartFile file,
-                                             @RequestParam(value = "toy", required = false) Toy toy) throws IOException {
-        String filename = file.getOriginalFilename();
-        Photo newPhoto = new Photo(filename, file.getContentType(), file.getBytes(), toy);
+    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile[] files,
+                                              @RequestParam(value = "toy") Toy toy) throws IOException {
+        try {
+            for (int i = 0; i < files.length; i++) {
+                String filename = StringUtils.cleanPath(files[i].getOriginalFilename());
+                Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), toy);
+                photoRepository.save(newPhoto);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not upload files");
+        }
 
-        Photo returnPhoto = photoRepository.save(newPhoto);
-
-        return new ResponseEntity<>(returnPhoto, HttpStatus.CREATED);
+        return new ResponseEntity<>("Files uploaded", HttpStatus.CREATED);
     }
-
 }

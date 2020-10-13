@@ -34,6 +34,7 @@ public class ToyController {
         Toy toyToUpdate = toyRepository.findById(id).get();
 
         toyToUpdate.setAge(toy.getAge());
+        toyToUpdate.setStaff(toy.getStaff());
         toyToUpdate.setCustomer(toy.getCustomer());
         toyToUpdate.setName(toy.getName());
         toyToUpdate.setPhotos(toy.getPhotos());
