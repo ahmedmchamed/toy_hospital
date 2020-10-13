@@ -15,12 +15,20 @@ const ToyHospital = () => {
         onLoad()
     }, [])
 
-    const onLoad = () => {
-        if (AuthService.getCurrentUser().accessToken.length !== 0) {
-            setIsAuthenticated(true)
-        } else {
-            console.log("Unauthorised!");
+    async function onLoad() {
+        try {
+            await AuthService.getCurrentUser()
+            if (AuthService.getCurrentUser().accessToken.length !== 0) {
+                setIsAuthenticated(true)
+            }
+        } catch {
+            console.log("Unauthorised");
         }
+        // if (AuthService.getCurrentUser().accessToken.length !== 0) {
+        //     setIsAuthenticated(true)
+        // } else {
+        //     console.log("Unauthorised!");
+        // }
     }
 
     return (

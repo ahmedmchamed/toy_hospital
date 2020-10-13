@@ -17,10 +17,16 @@ const Home = () => {
         })
     })
 
+    const handleLogout = () => {
+        console.log(AuthService.getCurrentUser())
+        AuthService.logout()
+    }
+
     return (
         <>
             <h1>You've successfully logged in!</h1>
             <p>{content}</p>
+            <button onClick={handleLogout}>Logout</button>
         </>
     )
 }   
