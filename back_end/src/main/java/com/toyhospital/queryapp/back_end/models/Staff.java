@@ -20,13 +20,17 @@ public class Staff {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "superpowers")
+    private String superpower;
+
     @JsonIgnoreProperties({"staff"})
     @OneToMany(mappedBy = "staff", fetch = FetchType.EAGER)
     private List<Toy> toys;
 
-    public Staff(String firstName, String lastName) {
+    public Staff(String firstName, String lastName, String superpower) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.superpower = superpower;
         this.toys = new ArrayList<Toy>();
     }
 
@@ -66,5 +70,13 @@ public class Staff {
 
     public void addToy(Toy toy) {
         this.toys.add(toy);
+    }
+
+    public String getSuperpower() {
+        return superpower;
+    }
+
+    public void setSuperpower(String superpower) {
+        this.superpower = superpower;
     }
 }
