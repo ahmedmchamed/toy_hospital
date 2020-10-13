@@ -5,8 +5,8 @@ import Login from "./Login";
 
 const Home = () => {
 
-    const [content, setContent] = useState("");
-
+    const [content, setContent] = useState(""); //just for testing! Should probs store toys and/or customers
+    
     //grabbing stuff from secure API with accesstoken!
     useEffect(() => {
         userService.getUserBoard()
