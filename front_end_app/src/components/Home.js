@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import AuthService from "../services/auth.service"
-import userService from "../services/user.service";
-import Login from "./Login";
+import userService from "../services/user.service"
+import NavBar from "./NavBar"
+import Login from "./Login"
 
 const Home = (props) => {
 
@@ -17,18 +19,18 @@ const Home = (props) => {
         })
     })
 
-    const handleLogout = () => {
-        AuthService.logout()
-        props.history.push("/login")
-        window.location.reload()
-    }
-
     return (
-        <>
-            <h1>You've successfully logged in!</h1>
-            <p>{content}</p>
-            <button onClick={handleLogout}>Logout</button>
-        </>
+        <Router>
+            <>
+                <NavBar />
+                <h1>You've successfully logged in!</h1>
+                <p>{content}</p>
+                <Switch>
+                    <Route path="/login" component={Login}/>
+                </Switch>
+                
+            </>
+        </Router>
     )
 }   
 
