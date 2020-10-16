@@ -3,7 +3,7 @@ import AuthService from "../services/auth.service"
 import userService from "../services/user.service";
 import Login from "./Login";
 
-const Home = () => {
+const Home = (props) => {
 
     const [content, setContent] = useState(""); //just for testing! Should probs store toys and/or customers
     
@@ -18,8 +18,9 @@ const Home = () => {
     })
 
     const handleLogout = () => {
-        console.log(AuthService.getCurrentUser())
         AuthService.logout()
+        props.history.push("/login")
+        window.location.reload()
     }
 
     return (

@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/api")
 public class ToyController {
 
     @Autowired

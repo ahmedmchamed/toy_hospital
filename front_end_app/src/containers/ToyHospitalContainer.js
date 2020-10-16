@@ -24,11 +24,6 @@ const ToyHospital = () => {
         } catch {
             console.log("Unauthorised");
         }
-        // if (AuthService.getCurrentUser().accessToken.length !== 0) {
-        //     setIsAuthenticated(true)
-        // } else {
-        //     console.log("Unauthorised!");
-        // }
     }
 
     return (

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin?? - Something to specify where requests are allowed to come from!
+@RequestMapping("/api")
 public class RepairController {
 
     @Autowired
