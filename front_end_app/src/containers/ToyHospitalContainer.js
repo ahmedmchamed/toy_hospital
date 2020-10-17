@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Login from "../components/Login"
-import Home from '../components/Home'
+import LoggedInRouter from '../routes/LoggedInRouter'
 import AuthenticatedRoute from "../routes/AuthenticatedRoute"
 import UnauthenticatedRoute from "../routes/UnauthenticatedRoute"
 import AuthService from "../services/auth.service"
@@ -37,7 +37,7 @@ const ToyHospital = () => {
                     />
                     <AuthenticatedRoute
                         path="/home"
-                        component={Home}
+                        component={LoggedInRouter}
                         appProps={{ isAuthenticated }}
                     />
                     <Route path="/" component={Login} />

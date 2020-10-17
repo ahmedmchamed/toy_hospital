@@ -12,6 +12,9 @@ const NavBar = (props) => {
     return (
         <ul>
             <li>
+                <Link to="/home">Toys</Link>
+            </li>
+            <li>
                 <Link to="/customers">Customers</Link>
             </li>
             <li>

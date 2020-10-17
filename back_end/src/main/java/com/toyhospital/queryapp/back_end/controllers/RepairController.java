@@ -5,6 +5,7 @@ import com.toyhospital.queryapp.back_end.repositories.RepairRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,18 +19,21 @@ public class RepairController {
     @Autowired
     RepairRepository repairRepository;
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/repairs")
     public ResponseEntity<List<Repair>> getAllRepairs(){
         List<Repair> foundRepairs = repairRepository.findAll();
         return new ResponseEntity<>(foundRepairs, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/repairs/{id}")
     public ResponseEntity<Optional<Repair>> getRepairById(@PathVariable Long id){
         Optional<Repair> foundRepair = repairRepository.findById(id);
         return new ResponseEntity<>(foundRepair, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping(value = "/repairs/{id}")
     public ResponseEntity<Repair> updateRepair(@RequestBody Repair repair, @PathVariable Long id) {
         Repair repairToUpdate = repairRepository.findById(id).get();
@@ -42,6 +46,7 @@ public class RepairController {
         return new ResponseEntity<>(repairToUpdate, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PostMapping(value = "/repairs")
     public ResponseEntity<Repair> postRepair(@RequestBody Repair repair) {
         Repair newRepair = repairRepository.save(repair);
