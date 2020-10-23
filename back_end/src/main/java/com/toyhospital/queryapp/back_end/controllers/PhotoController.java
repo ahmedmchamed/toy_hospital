@@ -9,6 +9,7 @@ import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
@@ -32,12 +33,14 @@ public class PhotoController {
     @Autowired
     ToyRepository toyRepository;
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/photos")
     public ResponseEntity<List<Photo>> getPhotos() {
         List<Photo> foundPhotos = photoRepository.findAll();
         return new ResponseEntity<>(foundPhotos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/photos/{id}")
     public ResponseEntity<Optional<Photo>> getPhoto(@PathVariable Long id) {
         Optional<Photo> foundPhoto = photoRepository.findById(id);

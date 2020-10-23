@@ -1,32 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+import userService from "../services/user.service"
 import AuthService from "../services/auth.service"
-import userService from "../services/user.service";
-import Login from "./Login";
+import Toy from "./Toy"
 
-const Home = () => {
 
-    const [content, setContent] = useState(""); //just for testing! Should probs store toys and/or customers
-    
-    //grabbing stuff from secure API with accesstoken!
-    useEffect(() => {
-        userService.getUserBoard()
-        .then(response => {
-            setContent(response.data)
-        }, error => {
-            console.error(error)
-        })
-    })
+const Home = ({toys}) => {
 
-    const handleLogout = () => {
-        console.log(AuthService.getCurrentUser())
-        AuthService.logout()
-    }
+    // const [toys, setToys] = useState([])
+
+    // useEffect(() => {
+    //     userService.getToys()
+    //     .then(response => {
+    //         if (response === "Unauthorised") {
+    //             AuthService.logout()
+    //             window.location.href = "/login"
+    //         }
+    //         setToys(response.data)
+    //     }, error => {
+    //         console.error(error)
+    //     })
+    // }, [])
 
     return (
         <>
-            <h1>You've successfully logged in!</h1>
-            <p>{content}</p>
-            <button onClick={handleLogout}>Logout</button>
+            <h1>Toys</h1>
+            <ul>
+            {toys.map(toy => (
+                <Toy 
+                    key={toy.id}
+                    name={toy.name}
+                    type={toy.type}
+                    age={toy.age}
+                    repairDescription={toy.repairFromCustomer}
+                    repairs={toy.repair}
+                    customer={toy.customer}
+                    staff={toy.staff}
+                />
+            ))}
+            </ul>
         </>
     )
 }   

@@ -5,6 +5,7 @@ import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class ToyController {
     @Autowired
     ToyRepository toyRepository;
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/toys")
     public ResponseEntity<List<Toy>> getAllToys() {
         List<Toy> foundToys = toyRepository.findAll();
         return new ResponseEntity<>(foundToys, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/toys/{id}")
     public ResponseEntity<Optional<Toy>> getToy(@PathVariable Long id) {
         Optional<Toy> foundToy = toyRepository.findById(id);
