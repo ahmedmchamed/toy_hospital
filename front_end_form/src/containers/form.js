@@ -96,9 +96,9 @@ class ToyForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const customerPostUrl = "http://localhost:8080/customers";
-        const toyPostUrl = "http://localhost:8080/toys";
-        const photoPostUrl = "http://localhost:8080/upload";
+        const customerPostUrl = "http://localhost:8080/api/customers";
+        const toyPostUrl = "http://localhost:8080/api/toys";
+        const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
         for (const photo of this.state.customerPhotos) {
@@ -149,7 +149,6 @@ class ToyForm extends Component {
     render() {
         return (
             <>
-            {/* <div className="toy-edit-form"> */}
             <div className="toy-form">
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="customer-name">Customer name</label>

@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api")
 //@CrossOrigin?? - Something to specify where requests are allowed to come from!
 public class RepairController {
 
