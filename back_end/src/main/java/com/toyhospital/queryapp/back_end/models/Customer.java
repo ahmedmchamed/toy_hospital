@@ -15,27 +15,27 @@ public class Customer {
     private Long id;
 
     @Column(name = "customer_name")
-    private String name;
+    private String customerName;
 
     @Column(name = "email")
-    private String email;
+    private String customerEmail;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Column(name = "customer_phone_number")
+    private String customerPhoneNumber;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "customer_address")
+    private String customerAddress;
 
     @JsonIgnoreProperties("customer")
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-    private List<Toy> toys;
+    private List<Toy> customerToys;
 
-    public Customer(String name, String email, String phoneNumber, String address) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.toys = new ArrayList<Toy>();
+    public Customer(String customerName, String customerEmail, String customerPhoneNumber, String customerAddress) {
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.customerAddress = customerAddress;
+        this.customerToys = new ArrayList<Toy>();
     }
 
     public Customer() {};
@@ -48,47 +48,47 @@ public class Customer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<Toy> getToys() {
-        return toys;
-    }
-
-    public void setToys(List<Toy> toys) {
-        this.toys = toys;
-    }
-
     public void addToy(Toy toy) {
-        this.toys.add(toy);
+        this.customerToys.add(toy);
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    public List<Toy> getCustomerToys() {
+        return customerToys;
+    }
+
+    public void setCustomerToys(List<Toy> customerToys) {
+        this.customerToys = customerToys;
     }
 }

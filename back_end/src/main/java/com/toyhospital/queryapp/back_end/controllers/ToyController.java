@@ -37,15 +37,15 @@ public class ToyController {
     public ResponseEntity<Toy> updateToy(@RequestBody Toy toy, @PathVariable Long id) {
         Toy toyToUpdate = toyRepository.findById(id).get();
 
-        toyToUpdate.setAge(toy.getAge());
+        toyToUpdate.setToyAge(toy.getToyAge());
         toyToUpdate.setStaff(toy.getStaff());
         toyToUpdate.setCustomer(toy.getCustomer());
-        toyToUpdate.setName(toy.getName());
+        toyToUpdate.setToyName(toy.getToyName());
         toyToUpdate.setPhotos(toy.getPhotos());
         toyToUpdate.setRepair(toy.getRepair());
         toyToUpdate.setRepairFromCustomer(toy.getRepairFromCustomer());
-        toyToUpdate.setSize(toy.getSize());
-        toyToUpdate.setType(toy.getType());
+        toyToUpdate.setToySize(toy.getToySize());
+        toyToUpdate.setToyType(toy.getToyType());
 
         toyRepository.save(toyToUpdate);
         return new ResponseEntity<>(toyToUpdate, HttpStatus.OK);

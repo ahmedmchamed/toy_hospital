@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 
-const CustomerList = () => {
+const CustomerList = ({customers}) => {
+    console.log(customers)
     return (
         <h1>Customer List TBC...</h1>
     )

@@ -15,16 +15,16 @@ public class Toy {
     private Long id;
 
     @Column(name = "toy_name")
-    private String name;
+    private String toyName;
 
     @Column(name = "type")
-    private String type;
+    private String toyType;
 
     @Column(name = "age")
-    private int age;
+    private int toyAge;
 
     @Column(name = "size")
-    private double size;
+    private double toySize;
 
     @Column(name = "repair_from_customer")
     private String repairFromCustomer;
@@ -33,9 +33,9 @@ public class Toy {
     @OneToMany(mappedBy = "toy", fetch = FetchType.EAGER)
     private List<Photo> photos;
 
-    @JsonIgnoreProperties({"toys"})
+    @JsonIgnoreProperties({"customerToys"})
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @JsonIgnoreProperties({"toys"})
@@ -52,11 +52,11 @@ public class Toy {
     )
     private List<Repair> repair;
 
-    public Toy(String name, String type, int age, double size, String repairFromCustomer, Customer customer, Staff staff) {
-        this.name = name;
-        this.type = type;
-        this.age = age;
-        this.size = size;
+    public Toy(String toyName, String toyType, int toyAge, double toySize, String repairFromCustomer, Customer customer, Staff staff) {
+        this.toyName = toyName;
+        this.toyType = toyType;
+        this.toyAge = toyAge;
+        this.toySize = toySize;
         this.repairFromCustomer = repairFromCustomer;
         this.photos = new ArrayList<Photo>();
         this.customer = customer;
@@ -72,38 +72,6 @@ public class Toy {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public double getSize() {
-        return size;
-    }
-
-    public void setSize(double size) {
-        this.size = size;
     }
 
     public String getRepairFromCustomer() {
@@ -148,5 +116,37 @@ public class Toy {
 
     public void setStaff(Staff staff) {
         this.staff = staff;
+    }
+
+    public String getToyName() {
+        return toyName;
+    }
+
+    public void setToyName(String toyName) {
+        this.toyName = toyName;
+    }
+
+    public String getToyType() {
+        return toyType;
+    }
+
+    public void setToyType(String toyType) {
+        this.toyType = toyType;
+    }
+
+    public int getToyAge() {
+        return toyAge;
+    }
+
+    public void setToyAge(int toyAge) {
+        this.toyAge = toyAge;
+    }
+
+    public double getToySize() {
+        return toySize;
+    }
+
+    public void setToySize(double toySize) {
+        this.toySize = toySize;
     }
 }

@@ -60,7 +60,7 @@ const LoggedInRouter = () => {
                 <NavBar />
                 <Switch>
                     <Route path="/home" render={(props) => (<Home toys={toys}/>)}/>
-                    <Route path="/customers" render={(props) => (<CustomerList customers={customers}/>)} />
+                    <Route path="/customers" render={(props) => (<CustomerList customers={customers} toys={toys} />)} />
                     <Route path="/admin" render={(props) => (<Admin repairs={repairs} staff={staff}/>)} />
                 </Switch>
             </>

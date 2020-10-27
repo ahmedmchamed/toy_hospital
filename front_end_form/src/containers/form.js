@@ -11,6 +11,7 @@ class ToyForm extends Component {
             customerPhoneNumber: "ay",
             customerAddress: "ay",
             customerPhotos: null,
+            customerToys: [],
             toyName: "ay",
             toyType: "ay",
             toyAge: 1,
@@ -103,47 +104,110 @@ class ToyForm extends Component {
         let files = new FormData();
         for (const photo of this.state.customerPhotos) {
             files.append("files", photo)
+            files.append("toy", null)
         }
 
-        let toy = new FormData();
+        const filesJson = JSON.stringify(files);
+        const filesBlob = new Blob([filesJson], {
+            type: "application/json"
+        });
 
+        let customer = new FormData();
+        customer.append("customerName", this.state.customerName)
+        customer.append("customerEmail", this.state.customerEmail)
+        customer.append("customerPhoneNumber", this.state.customerPhoneNumber)
+        customer.append("customerAddress", this.state.customerAddress)
+
+        let customerBlob = new Blob([customer], {
+            type: "application/json"
+        });
+
+        let toy = new FormData();
+        toy.append("toyName", this.state.toyName)
+        toy.append("toyType", this.state.toyType)
+        toy.append("toyAge", this.state.toyAge)
+        toy.append("toySize", this.state.toySize)
+        toy.append("repairFromCustomer", this.state.customerRepairDescription)
+        toy.append("customer", null)
+
+        let toyBlob = new Blob([toy], {
+            type: "application/json"
+        });
+
+        const toyTest = [
+            {
+                "toyName": this.state.toyName,
+                "toyType": this.state.toyType,
+                "toyAge": this.state.toyAge,
+                "toySize": this.state.toySize,
+                "repairFromCustomer": this.state.customerRepairDescription,
+                "customer": null  
+            },
+            {
+                "toyName": this.state.toyName,
+                "toyType": this.state.toyType,
+                "toyAge": this.state.toyAge,
+                "toySize": this.state.toySize,
+                "repairFromCustomer": this.state.customerRepairDescription,
+                "customer": null  
+            }
+        ]
+        
         fetch(customerPostUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "name": this.state.customerName,
-                "email": this.state.customerEmail,
-                "phoneNumber": this.state.customerPhoneNumber,
-                "address": this.state.customerAddress
+                "toys": toyTest,
+                "customer": {
+                    "customerName": this.state.customerName,
+                    "customerEmail": this.state.customerEmail,
+                    "customerPhoneNumber": this.state.customerPhoneNumber,
+                    "customerAddress": this.state.customerAddress
+                }
+                // "photos": files
             })
         })
-        .then(customerJsonRes => customerJsonRes.json())
-        .then(addedCustomer => {
-            fetch(toyPostUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "name": this.state.toyName,
-                    "type": this.state.toyType,
-                    "age": this.state.toyAge,
-                    "size": this.state.toySize,
-                    "repairFromCustomer": this.state.customerRepairDescription,
-                    "customer": addedCustomer
-                })
-            })
-            .then(toyJsonRes => toyJsonRes.json())
-            .then(addedToy => {
-                files.append("toy", addedToy.id)
-                fetch(photoPostUrl, {
-                    method: "POST",
-                    body: files
-                })
-            })
-        })
+
+        // fetch(customerPostUrl, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         "customerName": this.state.customerName,
+        //         "customerEmail": this.state.customerEmail,
+        //         "customerPhoneNumber": this.state.customerPhoneNumber,
+        //         "customerAddress": this.state.customerAddress
+        //     })
+        // })
+        // .then(customerJsonRes => customerJsonRes.json())
+        // .then(addedCustomer => {
+        //     fetch(toyPostUrl, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify({
+        //             "toyName": this.state.toyName,
+        //             "toyType": this.state.toyType,
+        //             "toyAge": this.state.toyAge,
+        //             "toySize": this.state.toySize,
+        //             "repairFromCustomer": this.state.customerRepairDescription,
+        //             "customer": addedCustomer
+        //         })
+        //     })
+        //     .then(toyJsonRes => toyJsonRes.json())
+        //     .then(addedToy => {
+        //         console.log(addedToy.id)
+        //         files.append("toy", addedToy.id)
+        //         fetch(photoPostUrl, {
+        //             method: "POST",
+        //             body: files
+        //         })
+        //     })
+        // })
     }
 
     render() {
@@ -163,30 +227,33 @@ class ToyForm extends Component {
                     <label htmlFor="customer-address">Customer address</label>
                     <input type="text" id="customer-address" value={this.state.customerAddress} onChange={this.handleCustomerAddress} name="address" />
 
-                    <label htmlFor="toy-name">Toy name</label>
-                    <input type="text" id="toy-name" value={this.state.toyName} onChange={this.handleToyName} name="toy_name" />
+                    <div className="toy-details-submission">
+                        <label htmlFor="toy-name">Toy name</label>
+                        <input type="text" id="toy-name" value={this.state.toyName} onChange={this.handleToyName} name="toy_name" />
 
-                    <label htmlFor="toy-type">Toy type</label>
-                    <select value={this.state.toyType} onChange={this.handleToyType}>
-                        <option value="mechanical">Mechanical</option>
-                        <option value="teddy">Teddy</option>
-                        <option value="doll">Doll</option>
-                        <option value="other">Other</option>
-                    </select>
+                        <label htmlFor="toy-type">Toy type</label>
+                        <select value={this.state.toyType} defaultValue="default" onChange={this.handleToyType}>
+                            <option disabled value="default">Please choose your toy type...</option>
+                            <option value="mechanical">Mechanical</option>
+                            <option value="teddy">Teddy</option>
+                            <option value="doll">Doll</option>
+                            <option value="other">Other</option>
+                        </select>
 
-                    <label htmlFor="toy-age">Toy age</label>
-                    <input type="number" id="toy-age" value={this.state.toyAge} onChange={this.handleToyAge} name="age" />
+                        <label htmlFor="toy-age">Toy age</label>
+                        <input type="number" id="toy-age" value={this.state.toyAge} onChange={this.handleToyAge} name="age" />
 
-                    <label htmlFor="toy-size">Toy size (cm)</label>
-                    <input type="number" id="toy-size" value={this.state.toySize} onChange={this.handleToySize} name="size" />
+                        <label htmlFor="toy-size">Toy size (cm)</label>
+                        <input type="number" id="toy-size" value={this.state.toySize} onChange={this.handleToySize} name="size" />
 
-                    <label htmlFor="toy-repair-description">Describe the repairs needed</label>
-                    <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
+                        <label htmlFor="toy-repair-description">Describe the repairs needed</label>
+                        <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
+                    
+                        <label htmlFor="customer-photo-upload">Upload your photos</label>
+                        <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
 
-                    <label htmlFor="customer-photo-upload">Upload your photos</label>
-                    <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
-
-                    <input type="submit" value="Submit"/>
+                        <input type="submit" value="Submit"/>
+                    </div>
                 </form>
             </div>
             {/* </div> */}
