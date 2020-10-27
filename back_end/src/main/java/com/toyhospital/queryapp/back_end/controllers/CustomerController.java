@@ -63,52 +63,15 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/customers")
-    public ResponseEntity<Customer> postCustomer(@RequestBody Holder holder) throws IOException {
+    public ResponseEntity<Toy> postCustomer(@RequestBody Holder holder) {
 
         Customer newCustomer = customerRepository.save(holder.getCustomer());
 
-        Toy[] toys = holder.getToys();
-        for (int i = 0; i < toys.length; i++) {
-            Toy newToy = new Toy(toys[i].getToyName(), toys[i].getToyType(), toys[i].getToyAge(), toys[i].getToySize(), toys[i].getRepairFromCustomer(), newCustomer, null);
-            newToy.setCustomer(newCustomer);
-            toyRepository.save(newToy);
-        }
-//        Toy newToy = holder.getToy();
-//        newCustomer.addToy(newToy);
+        Toy toy = holder.getToys();
+        toy.setCustomer(newCustomer);
+        Toy databaseToy = toyRepository.save(toy);
 
-
-//        MultipartFile[] photos = holder.getPhotos();
-//        for (int i = 0; i < photos.length; i++) {
-//            String filename = StringUtils.cleanPath(photos[i].getOriginalFilename());
-//            Photo newPhoto = new Photo(filename, photos[i].getContentType(), photos[i].getBytes(), databaseToy);
-//            photoRepository.save(newPhoto);
-//        }
-//
-        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+        return new ResponseEntity<>(databaseToy, HttpStatus.CREATED);
     }
-
-//    @PostMapping(value = "/customers")
-//    public ResponseEntity<Customer> postCustomer(@RequestParam(name = "customer", required = false) Customer customer,
-//                                                 @RequestParam(name = "toy", required = false) Toy toy,
-//                                                 @RequestParam(name = "files", required = false) MultipartFile[] files) throws IOException {
-//
-//        Customer newCustomer = customerRepository.save(customer);
-//
-//        for (int i = 0; i < toy.length; i++) {
-//            toy[i].setCustomer(newCustomer);
-//            toyRepository.save(toy[i]);
-//        }
-//
-//        toy.setCustomer(newCustomer);
-//        toyRepository.save(toy);
-//
-//        for (int i = 0; i < files.length; i++) {
-//            String filename = files[i].getOriginalFilename();
-//            Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), toy);
-//            photoRepository.save(newPhoto);
-//        }
-//
-//        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
-//    }
 
 }

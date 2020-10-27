@@ -104,54 +104,7 @@ class ToyForm extends Component {
         let files = new FormData();
         for (const photo of this.state.customerPhotos) {
             files.append("files", photo)
-            files.append("toy", null)
         }
-
-        const filesJson = JSON.stringify(files);
-        const filesBlob = new Blob([filesJson], {
-            type: "application/json"
-        });
-
-        let customer = new FormData();
-        customer.append("customerName", this.state.customerName)
-        customer.append("customerEmail", this.state.customerEmail)
-        customer.append("customerPhoneNumber", this.state.customerPhoneNumber)
-        customer.append("customerAddress", this.state.customerAddress)
-
-        let customerBlob = new Blob([customer], {
-            type: "application/json"
-        });
-
-        let toy = new FormData();
-        toy.append("toyName", this.state.toyName)
-        toy.append("toyType", this.state.toyType)
-        toy.append("toyAge", this.state.toyAge)
-        toy.append("toySize", this.state.toySize)
-        toy.append("repairFromCustomer", this.state.customerRepairDescription)
-        toy.append("customer", null)
-
-        let toyBlob = new Blob([toy], {
-            type: "application/json"
-        });
-
-        const toyTest = [
-            {
-                "toyName": this.state.toyName,
-                "toyType": this.state.toyType,
-                "toyAge": this.state.toyAge,
-                "toySize": this.state.toySize,
-                "repairFromCustomer": this.state.customerRepairDescription,
-                "customer": null  
-            },
-            {
-                "toyName": this.state.toyName,
-                "toyType": this.state.toyType,
-                "toyAge": this.state.toyAge,
-                "toySize": this.state.toySize,
-                "repairFromCustomer": this.state.customerRepairDescription,
-                "customer": null  
-            }
-        ]
         
         fetch(customerPostUrl, {
             method: "POST",
@@ -159,55 +112,30 @@ class ToyForm extends Component {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "toys": toyTest,
+                "toys": {
+                    "toyName": this.state.toyName,
+                    "toyType": this.state.toyType,
+                    "toyAge": this.state.toyAge,
+                    "toySize": this.state.toySize,
+                    "repairFromCustomer": this.state.customerRepairDescription
+                },
                 "customer": {
                     "customerName": this.state.customerName,
                     "customerEmail": this.state.customerEmail,
                     "customerPhoneNumber": this.state.customerPhoneNumber,
                     "customerAddress": this.state.customerAddress
                 }
-                // "photos": files
             })
         })
-
-        // fetch(customerPostUrl, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         "customerName": this.state.customerName,
-        //         "customerEmail": this.state.customerEmail,
-        //         "customerPhoneNumber": this.state.customerPhoneNumber,
-        //         "customerAddress": this.state.customerAddress
-        //     })
-        // })
-        // .then(customerJsonRes => customerJsonRes.json())
-        // .then(addedCustomer => {
-        //     fetch(toyPostUrl, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         },
-        //         body: JSON.stringify({
-        //             "toyName": this.state.toyName,
-        //             "toyType": this.state.toyType,
-        //             "toyAge": this.state.toyAge,
-        //             "toySize": this.state.toySize,
-        //             "repairFromCustomer": this.state.customerRepairDescription,
-        //             "customer": addedCustomer
-        //         })
-        //     })
-        //     .then(toyJsonRes => toyJsonRes.json())
-        //     .then(addedToy => {
-        //         console.log(addedToy.id)
-        //         files.append("toy", addedToy.id)
-        //         fetch(photoPostUrl, {
-        //             method: "POST",
-        //             body: files
-        //         })
-        //     })
-        // })
+        .then(res => res.json())
+        .then(addedToy => {
+            console.log(addedToy.id)
+            files.append("toy", addedToy.id)
+            fetch(photoPostUrl, {
+                method: "POST",
+                body: files
+            })
+        })
     }
 
     render() {
