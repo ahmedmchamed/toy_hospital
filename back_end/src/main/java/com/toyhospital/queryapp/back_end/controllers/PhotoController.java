@@ -48,8 +48,15 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile[] files,
+    public ResponseEntity<Toy> uploadPhoto(@RequestParam(value = "files") MultipartFile[] files,
                                               @RequestParam(value = "toy") Toy toy) throws IOException {
+
+        Optional<Toy> toyFromDatabase = toyRepository.findById(toy.getId());
+        Toy foundToy = new Toy();
+        if (toyFromDatabase.isPresent()) {
+            foundToy = toyFromDatabase.get();
+        }
+
         try {
             for (int i = 0; i < files.length; i++) {
                 String filename = StringUtils.cleanPath(files[i].getOriginalFilename());
@@ -60,6 +67,6 @@ public class PhotoController {
             throw new RuntimeException("Could not upload files");
         }
 
-        return new ResponseEntity<>("Files uploaded", HttpStatus.CREATED);
+        return new ResponseEntity<>(foundToy, HttpStatus.CREATED);
     }
 }

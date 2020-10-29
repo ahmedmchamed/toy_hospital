@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,15 +64,24 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/customers")
-    public ResponseEntity<Toy> postCustomer(@RequestBody Holder holder) {
+    public ResponseEntity<HashMap<String, Long>> postCustomer(@RequestBody Holder holder) {
 
-        Customer newCustomer = customerRepository.save(holder.getCustomer());
+        Customer databaseCustomer = customerRepository.save(holder.getCustomer());
 
         Toy toy = holder.getToys();
-        toy.setCustomer(newCustomer);
+        toy.setCustomer(databaseCustomer);
         Toy databaseToy = toyRepository.save(toy);
 
-        return new ResponseEntity<>(databaseToy, HttpStatus.CREATED);
+        HashMap<String, Long> customerAndToyIds = new HashMap<>();
+
+        customerAndToyIds.put("customerId", databaseCustomer.getId());
+        customerAndToyIds.put("toyId", databaseToy.getId());
+        //returns the customer instead
+        //store the id in state in the front end
+        //need to know if customer is already in the database
+        //don't want the customer to exist more than once in the app
+        //check if they exist in the database
+        return new ResponseEntity<>(customerAndToyIds, HttpStatus.CREATED);
     }
 
 }
