@@ -48,25 +48,26 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Toy> uploadPhoto(@RequestParam(value = "files") MultipartFile[] files,
-                                              @RequestParam(value = "toy") Toy toy) throws IOException {
-
-        Optional<Toy> toyFromDatabase = toyRepository.findById(toy.getId());
-        Toy foundToy = new Toy();
-        if (toyFromDatabase.isPresent()) {
-            foundToy = toyFromDatabase.get();
-        }
+    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile[][] files,
+                                              @RequestParam(value = "toyIds") Long[] toyIds) throws IOException {
 
         try {
-            for (int i = 0; i < files.length; i++) {
-                String filename = StringUtils.cleanPath(files[i].getOriginalFilename());
-                Photo newPhoto = new Photo(filename, files[i].getContentType(), files[i].getBytes(), toy);
-                photoRepository.save(newPhoto);
+            for(int i = 0; i < toyIds.length; i++) {
+                Optional<Toy> foundToy = toyRepository.findById(toyIds[i]);
+                if (foundToy.isPresent()) {
+                    for(int j = 0; j < files.length; j++) {
+                        for(int k = 0; k < files[j].length; k++) {
+                            String filename = StringUtils.cleanPath(files[j][k].getOriginalFilename());
+                            Photo newPhoto = new Photo(filename, files[j][k].getContentType(), files[j][k].getBytes(), foundToy.get());
+                            photoRepository.save(newPhoto);
+                        }
+                    }
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not upload files");
         }
 
-        return new ResponseEntity<>(foundToy, HttpStatus.CREATED);
+        return new ResponseEntity<>("foundToy", HttpStatus.CREATED);
     }
 }

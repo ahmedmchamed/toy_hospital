@@ -17,13 +17,13 @@ public class Toy {
     @Column(name = "toy_name")
     private String toyName;
 
-    @Column(name = "type")
+    @Column(name = "toy_type")
     private String toyType;
 
-    @Column(name = "age")
+    @Column(name = "toy_age")
     private int toyAge;
 
-    @Column(name = "size")
+    @Column(name = "toy_size")
     private double toySize;
 
     @Column(name = "repair_from_customer")

@@ -8,10 +8,10 @@ import java.util.List;
 public class Holder {
 
     private Customer customer;
-    private Toy toys;
+    private Toy[] toys;
 //    private MultipartFile[] photos;
 
-    public Holder(Customer customer, Toy toys) {
+    public Holder(Customer customer, Toy[] toys) {
         this.customer = customer;
         this.toys = toys;
 //        this.photos = photos;
@@ -27,11 +27,11 @@ public class Holder {
         this.customer = customer;
     }
 
-    public Toy getToys() {
+    public Toy[] getToys() {
         return toys;
     }
 
-    public void setToys(Toy toy) {
+    public void setToys(Toy[] toy) {
         this.toys = toy;
     }
 

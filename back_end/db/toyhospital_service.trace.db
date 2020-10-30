@@ -539,3 +539,6 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 2020-10-27 15:05:04 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROMCUSTOMERS[*]"; SQL statement:
 SELECT * FROMCUSTOMERS [42000-200]
+2020-10-30 16:06:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+insert into customers (id, customer_address, email, customer_name, customer_phone_number) values (null, ?, ?, ?, ?) [42102-200]
