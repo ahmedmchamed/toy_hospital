@@ -6,24 +6,21 @@ class ToyForm extends Component {
     constructor(props) {
         super();
         this.state = {
-            customerId: null,
-            customerName: "ay",
-            customerEmail: "ay",
-            customerPhoneNumber: "ay",
-            customerAddress: "ay",
-            customerPhotos: null,
+            customerName: null,
+            customerEmail: "jacko@email.com",
+            customerPhoneNumber: "01234567",
+            customerAddress: "100 Somewhere Lane",
+            customerPhotos: [],
             customerToys: [],
-            toyName: "ay",
-            toyType: "ay",
+            toyName: "Fluffles",
+            toyType: "Bear",
             toyAge: 1,
             toySize: 1.0,
-            customerRepairDescription: "ya",
-            isToySubmitted: false,
-            isCustomerAddingToy: false,
-            addOtherToy: null
+            customerRepairDescription: "Fix my fluffles"
         }
         this.fileUpload = React.createRef();
 
+        this.addToy = this.addToy.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCustomerName = this.handleCustomerName.bind(this);
         this.handleCustomerEmail = this.handleCustomerEmail.bind(this);
@@ -35,39 +32,6 @@ class ToyForm extends Component {
         this.handleToySize = this.handleToySize.bind(this);
         this.handleRepairDescription = this.handleRepairDescription.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
-        this.customerSubmissionQuery = this.customerSubmissionQuery.bind(this);
-        this.addAnotherToy = this.addAnotherToy.bind(this);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.isToySubmitted !== this.state.isToySubmitted) {
-            this.customerSubmissionQuery();
-            // this.setState({ isToySubmitted: false })
-        }
-    }
-
-    customerSubmissionQuery() {
-        // return (
-        //     <>
-        //         <button>CONTINUE</button>
-        //         <button onClick={this.addAnotherToy()}>ADD ANOTHER TOY</button>
-        //     </>
-        // )
-        const result =  <>
-                            <button>CONTINUE</button>
-                            <button onClick={this.addAnotherToy()}>ADD ANOTHER TOY</button>
-                        </>
-        
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                addOtherToy: result
-            }
-        }, () => console.log("General check"))
-    }
-
-    addAnotherToy() {
-
     }
 
     handleCustomerName(event) {
@@ -108,86 +72,84 @@ class ToyForm extends Component {
 
     handleFileUpload() {
         this.setState({
-            customerPhotos: this.fileUpload.current.files
+            customerPhotos: [
+                ...this.state.customerPhotos, 
+                this.fileUpload.current.files
+            ]
         }, () => {
             console.log(this.state.customerPhotos)
         })
     }
 
     handleSubmit(event) {
-        event.preventDefault();
         const customerPostUrl = "http://localhost:8080/api/customers";
         const toyPostUrl = "http://localhost:8080/api/toys";
         const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
-        for (const photo of this.state.customerPhotos) {
-            files.append("files", photo)
-        }
-        
-        //first check if there even is a customer id in state
-        //if there is NOT, the customer needs to be saved
-        //that's when we're making this initial double POST request
-        //At the end of that request, we should get the customer id
-        //If the customer clicks add toy again, then we have their id
+        files.append("files", this.state.customerPhotos)
 
-        if (this.state.customerId === null) {
-
-            fetch(customerPostUrl, {
+        fetch(customerPostUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "toys": this.state.customerToys,
+                "customer": {
+                    "customerName": this.state.customerName,
+                    "customerEmail": this.state.customerEmail,
+                    "customerPhoneNumber": this.state.customerPhoneNumber,
+                    "customerAddress": this.state.customerAddress
+                }
+            })
+        })
+        .then(res => res.json())
+        .then(toyIds => {
+            console.log(toyIds);
+            
+            files.append("toyIds", toyIds);
+            fetch(photoPostUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "toys": {
-                        "toyName": this.state.toyName,
-                        "toyType": this.state.toyType,
-                        "toyAge": this.state.toyAge,
-                        "toySize": this.state.toySize,
-                        "repairFromCustomer": this.state.customerRepairDescription
-                    },
-                    "customer": {
-                        "customerName": this.state.customerName,
-                        "customerEmail": this.state.customerEmail,
-                        "customerPhoneNumber": this.state.customerPhoneNumber,
-                        "customerAddress": this.state.customerAddress
-                    }
-                })
+                body: files
             })
-            .then(res => res.json())
-            .then(customerAndToyIds => {
-                console.log(customerAndToyIds);
+        })
+        .then(() => {
+            this.setState({customerToys: []})
+        })
+    }
     
-                this.setState({ 
-                    customerId: customerAndToyIds.customerId 
-                }, () => console.log(this.state.customerId));
-                
-                files.append("toy", customerAndToyIds.toyId);
-                fetch(photoPostUrl, {
-                    method: "POST",
-                    body: files
-                })
-                .then(res => res.json())
-                .then(newToy => {
-                    console.log(newToy);
-                    if (this.state.isToySubmitted === false) {
-                        this.setState({ 
-                            isToySubmitted: true 
-                        }, () => console.log(this.state.isToySubmitted))
-                    } 
-                })
-            })
-        }
-        // else {
 
-        // }
+    addToy(event) {
+        event.preventDefault()
+        this.setState({
+            customerToys: [...this.state.customerToys, {
+                toyName: this.state.toyName,
+                toyType: this.state.toyType,
+                toyAge: this.state.toyAge,
+                toySize: this.state.toySize,
+                repairFromCustomer: this.state.customerRepairDescription
+            }]
+        })
+        console.log(this.state.customerToys)
     }
 
     render() {
+
+        let toyListItem = []
+
+        if (this.state.customerToys.length > 0) {
+            toyListItem = this.state.customerToys.map((toy, index) => {
+                return (
+                <li key={"toy_" + index}>{toy.toyName}</li>
+                )
+            })
+        }
+
         return (
             <>
             <div className="toy-form">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.addToy}>
                     <label htmlFor="customer-name">Customer name</label>
                     <input type="text" id="customer-name" value={this.state.customerName} onChange={this.handleCustomerName} name="customer_name" />
 
@@ -205,7 +167,7 @@ class ToyForm extends Component {
                         <input type="text" id="toy-name" value={this.state.toyName} onChange={this.handleToyName} name="toy_name" />
 
                         <label htmlFor="toy-type">Toy type</label>
-                        <select value={this.state.toyType} defaultValue="default" onChange={this.handleToyType}>
+                        <select value={this.state.toyType} defaultValue="default" onChange={this.handleToyType} name="toy_type">
                             <option disabled value="default">Please choose your toy type...</option>
                             <option value="mechanical">Mechanical</option>
                             <option value="teddy">Teddy</option>
@@ -214,23 +176,25 @@ class ToyForm extends Component {
                         </select>
 
                         <label htmlFor="toy-age">Toy age</label>
-                        <input type="number" id="toy-age" value={this.state.toyAge} onChange={this.handleToyAge} name="age" />
+                        <input type="number" id="toy-age" value={this.state.toyAge} onChange={this.handleToyAge} name="toy_age" />
 
                         <label htmlFor="toy-size">Toy size (cm)</label>
-                        <input type="number" id="toy-size" value={this.state.toySize} onChange={this.handleToySize} name="size" />
+                        <input type="number" id="toy-size" value={this.state.toySize} onChange={this.handleToySize} name="toy_size" />
 
                         <label htmlFor="toy-repair-description">Describe the repairs needed</label>
                         <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
                     
                         <label htmlFor="customer-photo-upload">Upload your photos</label>
                         <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
-
                         <input type="submit" value="ADD TOY"/>
                     </div>
                 </form>
+                <button type="button" onClick={this.handleSubmit}>Submit toys</button>
             </div>
             <div>
-                {this.state.addOtherToy}
+                <ul>
+                    {toyListItem}
+                </ul>
             </div>
             </>
         )
