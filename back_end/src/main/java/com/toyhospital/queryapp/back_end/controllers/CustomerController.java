@@ -1,9 +1,6 @@
 package com.toyhospital.queryapp.back_end.controllers;
 
-import com.toyhospital.queryapp.back_end.models.Customer;
-import com.toyhospital.queryapp.back_end.models.Holder;
-import com.toyhospital.queryapp.back_end.models.Photo;
-import com.toyhospital.queryapp.back_end.models.Toy;
+import com.toyhospital.queryapp.back_end.models.*;
 import com.toyhospital.queryapp.back_end.repositories.CustomerRepository;
 import com.toyhospital.queryapp.back_end.repositories.PhotoRepository;
 import com.toyhospital.queryapp.back_end.repositories.ToyRepository;
@@ -66,6 +63,9 @@ public class CustomerController {
 
     @PostMapping(value = "/customers")
     public ResponseEntity<ArrayList<Long>> postCustomer(@RequestBody Holder holder) {
+//    public ResponseEntity<ArrayList<Long>> postCustomer(@RequestParam(value = "holder") Holder holder,
+//                                                        @RequestParam(value = "files") FileTest files) {
+
 
         ArrayList<Long> toyIds = new ArrayList<>();
         Customer databaseCustomer = customerRepository.save(holder.getCustomer());

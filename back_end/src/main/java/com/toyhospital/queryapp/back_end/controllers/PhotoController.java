@@ -1,6 +1,7 @@
 package com.toyhospital.queryapp.back_end.controllers;
 
 import com.toyhospital.queryapp.back_end.models.Customer;
+import com.toyhospital.queryapp.back_end.models.FileTest;
 import com.toyhospital.queryapp.back_end.models.Photo;
 import com.toyhospital.queryapp.back_end.models.Toy;
 import com.toyhospital.queryapp.back_end.repositories.CustomerRepository;
@@ -48,23 +49,28 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") MultipartFile[][] files,
-                                              @RequestParam(value = "toyIds") Long[] toyIds) throws IOException {
+    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") FileTest files,
+                                              @RequestParam(value = "toyIds") ArrayList<Long> toyIds) throws IOException {
 
+        List<List<MultipartFile>> allFiles = files.getFiles();
+        System.out.println(allFiles);
         try {
-            for(int i = 0; i < toyIds.length; i++) {
-                Optional<Toy> foundToy = toyRepository.findById(toyIds[i]);
+            for(int i = 0; i < toyIds.size(); i++) {
+                Optional<Toy> foundToy = toyRepository.findById(toyIds.get(i));
                 if (foundToy.isPresent()) {
-                    for(int j = 0; j < files.length; j++) {
-                        for(int k = 0; k < files[j].length; k++) {
-                            String filename = StringUtils.cleanPath(files[j][k].getOriginalFilename());
-                            Photo newPhoto = new Photo(filename, files[j][k].getContentType(), files[j][k].getBytes(), foundToy.get());
+//                    for(int j = 0; j < allFiles.length; j++) {
+                        for(int k = 0; k < allFiles.get(i).size(); k++) {
+                            String filename = StringUtils.cleanPath(allFiles.get(i).get(k).getOriginalFilename());
+                            Photo newPhoto = new Photo(filename, allFiles.get(i).get(k).getContentType(), allFiles.get(i).get(k).getBytes(), foundToy.get());
                             photoRepository.save(newPhoto);
+                            System.out.println(filename);
+                            System.out.println();
                         }
-                    }
+//                    }
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException("Could not upload files");
         }
 

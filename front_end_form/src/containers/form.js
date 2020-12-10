@@ -71,11 +71,12 @@ class ToyForm extends Component {
     }
 
     handleFileUpload() {
+        const allFiles = [
+            ...this.state.customerPhotos,
+            this.fileUpload.current.files
+        ]
         this.setState({
-            customerPhotos: [
-                ...this.state.customerPhotos, 
-                this.fileUpload.current.files
-            ]
+            customerPhotos: allFiles
         }, () => {
             console.log(this.state.customerPhotos)
         })
@@ -87,7 +88,37 @@ class ToyForm extends Component {
         const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
+        // let data = new FormData();
         files.append("files", this.state.customerPhotos)
+        // this.state.customerPhotos.forEach((filesData, index) => {
+        //     // const filesDataArray = Array.from(filesData)
+        //     // filesDataArray.forEach((photo, i) => {
+        //     //     // filesData[index][i]
+        //     //     files.append(`files[${index}][${i}]`, photo)
+        //     // })
+        //     for (const [i, photo] of Array.from(filesData).entries()) {
+        //         files.append(`files[${index}][${i}]`, photo)
+        //     }
+        //     console.log(typeof filesData)
+        //     console.log(filesData)
+        // })
+
+        // const customerAndToy = JSON.stringify({
+        //     "toys": this.state.customerToys,
+        //     "customer": {
+        //         "customerName": this.state.customerName,
+        //         "customerEmail": this.state.customerEmail,
+        //         "customerPhoneNumber": this.state.customerPhoneNumber,
+        //         "customerAddress": this.state.customerAddress
+        //     }
+        // });
+
+        // const customerAndToyBlob = new Blob([customerAndToy], {
+        //     type : 'application/json'
+        // })
+
+        // data.append("holder", customerAndToyBlob);
+        // data.append("files", this.state.customerPhotos)
 
         fetch(customerPostUrl, {
             method: "POST",
@@ -108,7 +139,7 @@ class ToyForm extends Component {
         .then(toyIds => {
             console.log(toyIds);
             
-            files.append("toyIds", toyIds);
+            files.append("toyIds", new Blob([toyIds], { type : 'appliation/json'}));
             fetch(photoPostUrl, {
                 method: "POST",
                 body: files
@@ -141,7 +172,7 @@ class ToyForm extends Component {
         if (this.state.customerToys.length > 0) {
             toyListItem = this.state.customerToys.map((toy, index) => {
                 return (
-                <li key={"toy_" + index}>{toy.toyName}</li>
+                    <li key={"toy_" + index}>{toy.toyName}</li>
                 )
             })
         }
@@ -185,7 +216,7 @@ class ToyForm extends Component {
                         <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
                     
                         <label htmlFor="customer-photo-upload">Upload your photos</label>
-                        <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
+                        <input enctype="multipart/form-data" type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
                         <input type="submit" value="ADD TOY"/>
                     </div>
                 </form>

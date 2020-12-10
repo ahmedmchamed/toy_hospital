@@ -9,12 +9,12 @@ public class Holder {
 
     private Customer customer;
     private Toy[] toys;
-//    private MultipartFile[] photos;
+//    private List<Photo>[] files;
 
     public Holder(Customer customer, Toy[] toys) {
         this.customer = customer;
         this.toys = toys;
-//        this.photos = photos;
+//        this.files = files;
     }
 
     public Holder() {}
@@ -35,11 +35,11 @@ public class Holder {
         this.toys = toy;
     }
 
-//    public MultipartFile[] getPhotos() {
-//        return photos;
+//    public List<Photo>[] getFiles() {
+//        return files;
 //    }
 //
-//    public void setPhotos(MultipartFile[] photos) {
-//        this.photos = photos;
+//    public void setFiles(List<Photo>[] files) {
+//        this.files = files;
 //    }
 }
