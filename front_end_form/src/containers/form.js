@@ -20,6 +20,7 @@ class ToyForm extends Component {
         }
         this.fileUpload = React.createRef();
 
+        this.handleGetPhotosTest = this.handleGetPhotosTest.bind(this);
         this.addToy = this.addToy.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCustomerName = this.handleCustomerName.bind(this);
@@ -31,6 +32,7 @@ class ToyForm extends Component {
         this.handleToyAge = this.handleToyAge.bind(this);
         this.handleToySize = this.handleToySize.bind(this);
         this.handleRepairDescription = this.handleRepairDescription.bind(this);
+        this.toBase64 = this.toBase64.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
@@ -70,10 +72,40 @@ class ToyForm extends Component {
         this.setState({ customerRepairDescription: event.target.value })
     }
 
-    handleFileUpload() {
+    handleGetPhotosTest() {
+        fetch("http://localhost:8080/api/7" {
+            method: "GET",
+            headers: {
+                
+            }
+        })
+        .then(res => res.json())
+        .then(photo => console.log(photo))
+    }
+
+    toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    async handleFileUpload() {
+        
+        let formData = new FormData();
+        let newPhotos = [];
+        for (let i = 0; i < this.fileUpload.current.files.length; i++) {
+            console.log(this.fileUpload.current.files[i])
+            formData.append(`files-${i}`, this.fileUpload.current.files[i])
+            newPhotos.push(await this.toBase64(this.fileUpload.current.files[i]))
+            // newPhotos.push(this.fileUpload.current.files[i]);
+        }
+
         const allFiles = [
             ...this.state.customerPhotos,
-            this.fileUpload.current.files
+            // formData
+            // this.fileUpload.current.files
+            newPhotos
         ]
         this.setState({
             customerPhotos: allFiles
@@ -89,7 +121,9 @@ class ToyForm extends Component {
 
         let files = new FormData();
         // let data = new FormData();
-        files.append("files", this.state.customerPhotos)
+        // files.append("files", new Blob([this.state.customerPhotos], { type : 'multipart/form-data'}))
+        // files.append("files", this.state.customerPhotos)
+        
         // this.state.customerPhotos.forEach((filesData, index) => {
         //     // const filesDataArray = Array.from(filesData)
         //     // filesDataArray.forEach((photo, i) => {
@@ -102,6 +136,8 @@ class ToyForm extends Component {
         //     console.log(typeof filesData)
         //     console.log(filesData)
         // })
+
+        //enctype="multipart/form-data" 
 
         // const customerAndToy = JSON.stringify({
         //     "toys": this.state.customerToys,
@@ -138,10 +174,14 @@ class ToyForm extends Component {
         .then(res => res.json())
         .then(toyIds => {
             console.log(toyIds);
-            
-            files.append("toyIds", new Blob([toyIds], { type : 'appliation/json'}));
+            files.append("files", this.state.customerPhotos)
+            // files.append("toyIds", new Blob([toyIds], { type : 'appliation/json'}));
+            // files.append("toyIds", toyIds);
             fetch(photoPostUrl, {
                 method: "POST",
+                // headers: {
+                //     "Content-Type": "multipart/form-data; boundary=fuckyou"
+                // },
                 body: files
             })
         })
@@ -180,7 +220,8 @@ class ToyForm extends Component {
         return (
             <>
             <div className="toy-form">
-                <form onSubmit={this.addToy}>
+            {/*  */}
+                <form onSubmit={this.addToy} encType="multipart/form-data">
                     <label htmlFor="customer-name">Customer name</label>
                     <input type="text" id="customer-name" value={this.state.customerName} onChange={this.handleCustomerName} name="customer_name" />
 
@@ -216,7 +257,7 @@ class ToyForm extends Component {
                         <textarea id="toy-repair-description" value={this.state.customerRepairDescription} onChange={this.handleRepairDescription} name="repair_from_customer" ></textarea>
                     
                         <label htmlFor="customer-photo-upload">Upload your photos</label>
-                        <input enctype="multipart/form-data" type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
+                        <input type="file" name="files" id="customer-photo-upload" ref={this.fileUpload} onChange={this.handleFileUpload} multiple></input>
                         <input type="submit" value="ADD TOY"/>
                     </div>
                 </form>
@@ -227,6 +268,7 @@ class ToyForm extends Component {
                     {toyListItem}
                 </ul>
             </div>
+            <button onClick={this.handleGetPhotosTest}>GET MAH PHOTOS BITCH</button>
             </>
         )
     }

@@ -15,8 +15,8 @@ public class Photo {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "type")
-    private String type;
+//    @Column(name = "type")
+//    private String type;
 
     @Lob
     private byte[] data;
@@ -26,9 +26,9 @@ public class Photo {
     @JoinColumn(name = "toy_id")
     private Toy toy;
 
-    public Photo(String name, String type, byte[] data, Toy toy) {
+    public Photo(String name, byte[] data, Toy toy) {
         this.name = name;
-        this.type = type;
+//        this.type = type;
         this.data = data;
         this.toy = toy;
     }
@@ -51,13 +51,13 @@ public class Photo {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public byte[] getData() {
         return data;

@@ -9,7 +9,7 @@ public class Holder {
 
     private Customer customer;
     private Toy[] toys;
-//    private List<Photo>[] files;
+//    private Photo[][] files;
 
     public Holder(Customer customer, Toy[] toys) {
         this.customer = customer;
@@ -35,11 +35,11 @@ public class Holder {
         this.toys = toy;
     }
 
-//    public List<Photo>[] getFiles() {
+//    public Photo[][] getFiles() {
 //        return files;
 //    }
 //
-//    public void setFiles(List<Photo>[] files) {
+//    public void setFiles(Photo[][] files) {
 //        this.files = files;
 //    }
 }
