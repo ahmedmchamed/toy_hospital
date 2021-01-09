@@ -71,11 +71,12 @@ class ToyForm extends Component {
     }
 
     handleFileUpload() {
-        
+
         const allFiles = [
             ...this.state.customerPhotos,
             this.fileUpload.current.files
         ]
+
         this.setState({
             customerPhotos: allFiles
         }, () => {
@@ -84,11 +85,13 @@ class ToyForm extends Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         const customerPostUrl = "http://localhost:8080/api/customers";
         const toyPostUrl = "http://localhost:8080/api/toys";
         const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
+        files.append("files", this.state.customerPhotos)
 
         fetch(customerPostUrl, {
             method: "POST",
@@ -108,13 +111,9 @@ class ToyForm extends Component {
         .then(res => res.json())
         .then(toyIds => {
             console.log(toyIds);
-            files.append("files", this.state.customerPhotos)
-            // files.append("toyIds", new Blob([toyIds], { type : 'appliation/json'}));
+            
             fetch(photoPostUrl, {
                 method: "POST",
-                // headers: {
-                //     "Content-Type": "multipart/form-data;"
-                // },
                 body: files
             })
         })

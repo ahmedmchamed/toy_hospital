@@ -7,19 +7,19 @@ import java.util.List;
 
 public class FileTest {
 
-    private MultipartFile[][] files;
+    private MultipartFile[] files;
 
-    public FileTest(MultipartFile[][] files) {
+    public FileTest(MultipartFile[] files) {
         this.files = files;
     }
 
     public FileTest() {}
 
-    public MultipartFile[][] getFiles() {
+    public MultipartFile[] getFiles() {
         return files;
     }
 
-    public void setFiles(MultipartFile[][] files) {
+    public void setFiles(MultipartFile[] files) {
         this.files = files;
     }
 
