@@ -20,7 +20,6 @@ class ToyForm extends Component {
         }
         this.fileUpload = React.createRef();
 
-        this.handleGetPhotosTest = this.handleGetPhotosTest.bind(this);
         this.addToy = this.addToy.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCustomerName = this.handleCustomerName.bind(this);
@@ -32,7 +31,6 @@ class ToyForm extends Component {
         this.handleToyAge = this.handleToyAge.bind(this);
         this.handleToySize = this.handleToySize.bind(this);
         this.handleRepairDescription = this.handleRepairDescription.bind(this);
-        this.toBase64 = this.toBase64.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
@@ -72,43 +70,11 @@ class ToyForm extends Component {
         this.setState({ customerRepairDescription: event.target.value })
     }
 
-    handleGetPhotosTest() {
-        fetch("http://localhost:8080/api/7")
-        //     method: "GET",
-        //     mode: 'no-cors',
-        //     header: {
-        //         "Content-Type": "application/json",
-        //         "Access-Control-Allow-Origin": "http://localhost:3000/",
-        //         "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTYxMDExNzU3MSwiZXhwIjoxNjEwMTE4MTc2fQ.1IBtBLuVUox16jNyao0MsexHfYSIOZ_9VLj9sms6Qk1lzdorItrb3UqATMKJ9UdIPDmeMdo4Ye0EZRUxpNd65w`
-        //     }
-        // })
-        .then(res => res.json())
-        .then(photo => console.log(photo))
-    }
-
-    toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-
-    async handleFileUpload() {
+    handleFileUpload() {
         
-        let formData = new FormData();
-        let newPhotos = [];
-        for (let i = 0; i < this.fileUpload.current.files.length; i++) {
-            console.log(this.fileUpload.current.files[i])
-            formData.append(`files-${i}`, this.fileUpload.current.files[i])
-            newPhotos.push(await this.toBase64(this.fileUpload.current.files[i]))
-            // newPhotos.push(this.fileUpload.current.files[i]);
-        }
-
         const allFiles = [
             ...this.state.customerPhotos,
-            // formData
-            // this.fileUpload.current.files
-            newPhotos
+            this.fileUpload.current.files
         ]
         this.setState({
             customerPhotos: allFiles
@@ -123,41 +89,6 @@ class ToyForm extends Component {
         const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
-        // let data = new FormData();
-        // files.append("files", new Blob([this.state.customerPhotos], { type : 'multipart/form-data'}))
-        // files.append("files", this.state.customerPhotos)
-        
-        // this.state.customerPhotos.forEach((filesData, index) => {
-        //     // const filesDataArray = Array.from(filesData)
-        //     // filesDataArray.forEach((photo, i) => {
-        //     //     // filesData[index][i]
-        //     //     files.append(`files[${index}][${i}]`, photo)
-        //     // })
-        //     for (const [i, photo] of Array.from(filesData).entries()) {
-        //         files.append(`files[${index}][${i}]`, photo)
-        //     }
-        //     console.log(typeof filesData)
-        //     console.log(filesData)
-        // })
-
-        //enctype="multipart/form-data" 
-
-        // const customerAndToy = JSON.stringify({
-        //     "toys": this.state.customerToys,
-        //     "customer": {
-        //         "customerName": this.state.customerName,
-        //         "customerEmail": this.state.customerEmail,
-        //         "customerPhoneNumber": this.state.customerPhoneNumber,
-        //         "customerAddress": this.state.customerAddress
-        //     }
-        // });
-
-        // const customerAndToyBlob = new Blob([customerAndToy], {
-        //     type : 'application/json'
-        // })
-
-        // data.append("holder", customerAndToyBlob);
-        // data.append("files", this.state.customerPhotos)
 
         fetch(customerPostUrl, {
             method: "POST",
@@ -179,11 +110,10 @@ class ToyForm extends Component {
             console.log(toyIds);
             files.append("files", this.state.customerPhotos)
             // files.append("toyIds", new Blob([toyIds], { type : 'appliation/json'}));
-            // files.append("toyIds", toyIds);
             fetch(photoPostUrl, {
                 method: "POST",
                 // headers: {
-                //     "Content-Type": "multipart/form-data; boundary=fuckyou"
+                //     "Content-Type": "multipart/form-data;"
                 // },
                 body: files
             })
@@ -193,7 +123,6 @@ class ToyForm extends Component {
         })
     }
     
-
     addToy(event) {
         event.preventDefault()
         this.setState({
@@ -271,7 +200,6 @@ class ToyForm extends Component {
                     {toyListItem}
                 </ul>
             </div>
-            <button onClick={this.handleGetPhotosTest}>GET MAH PHOTOS BITCH</button>
             </>
         )
     }
