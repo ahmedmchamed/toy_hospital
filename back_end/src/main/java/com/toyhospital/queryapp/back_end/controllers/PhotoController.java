@@ -36,14 +36,14 @@ public class PhotoController {
     @Autowired
     ToyRepository toyRepository;
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/photos")
     public ResponseEntity<List<Photo>> getPhotos() {
         List<Photo> foundPhotos = photoRepository.findAll();
         return new ResponseEntity<>(foundPhotos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = "/photos/{id}")
     public ResponseEntity<Photo> getPhoto(@PathVariable Long id) {
         Optional<Photo> foundPhoto = photoRepository.findById(id);

@@ -73,12 +73,15 @@ class ToyForm extends Component {
     }
 
     handleGetPhotosTest() {
-        fetch("http://localhost:8080/api/7" {
-            method: "GET",
-            headers: {
-                
-            }
-        })
+        fetch("http://localhost:8080/api/7")
+        //     method: "GET",
+        //     mode: 'no-cors',
+        //     header: {
+        //         "Content-Type": "application/json",
+        //         "Access-Control-Allow-Origin": "http://localhost:3000/",
+        //         "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTYxMDExNzU3MSwiZXhwIjoxNjEwMTE4MTc2fQ.1IBtBLuVUox16jNyao0MsexHfYSIOZ_9VLj9sms6Qk1lzdorItrb3UqATMKJ9UdIPDmeMdo4Ye0EZRUxpNd65w`
+        //     }
+        // })
         .then(res => res.json())
         .then(photo => console.log(photo))
     }
