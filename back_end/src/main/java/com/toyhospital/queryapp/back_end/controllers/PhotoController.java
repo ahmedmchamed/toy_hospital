@@ -51,11 +51,11 @@ public class PhotoController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> uploadPhoto(@RequestParam(value = "files") List<MultipartFile>[] photos) throws IOException {
+    public ResponseEntity<String> uploadPhoto(@ModelAttribute FileTest photos) throws IOException {
 
-        for (int i = 0; i < photos.length; i++) {
-            for (int j = 0; j < photos[i].size(); j++) {
-                System.out.println(photos[i].get(j).getOriginalFilename());
+        for (int i = 0; i < photos.getFiles().length; i++) {
+            for (int j = 0; j < photos.getFiles()[i].size(); j++) {
+                System.out.println(photos.getFiles()[i].get(j).getOriginalFilename());
             }
         }
 

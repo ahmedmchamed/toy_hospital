@@ -76,7 +76,7 @@ class ToyForm extends Component {
             ...this.state.customerPhotos,
             this.fileUpload.current.files
         ]
-
+        
         this.setState({
             customerPhotos: allFiles
         }, () => {
@@ -91,7 +91,13 @@ class ToyForm extends Component {
         const photoPostUrl = "http://localhost:8080/api/upload";
 
         let files = new FormData();
-        files.append("files", this.state.customerPhotos)
+
+        for (let i = 0; i < this.state.customerPhotos.length; i++) {
+            for (let j = 0; j < this.state.customerPhotos[i].length; j++) {
+                console.log(this.state.customerPhotos[i][j])
+                files.append(`files[${i}][${j}]`, this.state.customerPhotos[i][j])
+            }
+        }
 
         fetch(customerPostUrl, {
             method: "POST",
