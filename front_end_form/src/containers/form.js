@@ -85,7 +85,7 @@ class ToyForm extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
+        // event.preventDefault();
         const customerPostUrl = "http://localhost:8080/api/customers";
         const toyPostUrl = "http://localhost:8080/api/toys";
         const photoPostUrl = "http://localhost:8080/api/upload";
@@ -99,30 +99,28 @@ class ToyForm extends Component {
             }
         }
 
+        const customerAndToy = {
+            "toys": this.state.customerToys,
+            "customer": {
+                "customerName": this.state.customerName,
+                "customerEmail": this.state.customerEmail,
+                "customerPhoneNumber": this.state.customerPhoneNumber,
+                "customerAddress": this.state.customerAddress
+            }
+        }
+
+        const customerAndToyJson = JSON.stringify(customerAndToy)
+        const customerAndToyBlob = new Blob([customerAndToyJson], {
+            type: 'application/json'
+        })
+
+        files.append("json", customerAndToyBlob)
+
         fetch(customerPostUrl, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "toys": this.state.customerToys,
-                "customer": {
-                    "customerName": this.state.customerName,
-                    "customerEmail": this.state.customerEmail,
-                    "customerPhoneNumber": this.state.customerPhoneNumber,
-                    "customerAddress": this.state.customerAddress
-                }
-            })
+            body: files
         })
         .then(res => res.json())
-        .then(toyIds => {
-            console.log(toyIds);
-            
-            fetch(photoPostUrl, {
-                method: "POST",
-                body: files
-            })
-        })
         .then(() => {
             this.setState({customerToys: []})
         })
@@ -144,10 +142,10 @@ class ToyForm extends Component {
 
     render() {
 
-        let toyListItem = []
+        let toyListItems = []
 
         if (this.state.customerToys.length > 0) {
-            toyListItem = this.state.customerToys.map((toy, index) => {
+            toyListItems = this.state.customerToys.map((toy, index) => {
                 return (
                     <li key={"toy_" + index}>{toy.toyName}</li>
                 )
@@ -202,7 +200,7 @@ class ToyForm extends Component {
             </div>
             <div>
                 <ul>
-                    {toyListItem}
+                    {toyListItems}
                 </ul>
             </div>
             </>

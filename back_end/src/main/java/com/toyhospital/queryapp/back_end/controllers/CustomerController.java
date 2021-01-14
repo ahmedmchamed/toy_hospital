@@ -62,19 +62,25 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/customers")
-    public ResponseEntity<ArrayList<Long>> postCustomer(@RequestBody Holder holder) {
-//    public ResponseEntity<ArrayList<Long>> postCustomer(@RequestParam(value = "holder") Holder holder,
-//                                                        @RequestParam(value = "files") FileTest files) {
-
+    public ResponseEntity<ArrayList<Long>> postCustomer(@RequestPart(value = "json") Holder holder,
+                                                        @ModelAttribute FileTest files) throws IOException {
 
         ArrayList<Long> toyIds = new ArrayList<>();
         Customer databaseCustomer = customerRepository.save(holder.getCustomer());
 
         Toy[] customerToys = holder.getToys();
+        List<MultipartFile>[] photos = files.getFiles();
+
         for(int i = 0; i < customerToys.length; i++) {
             customerToys[i].setCustomer(databaseCustomer);
             Toy databaseToy = toyRepository.save(customerToys[i]);
             toyIds.add(databaseToy.getId());
+            for (int j = 0; j < photos[i].size(); j++) {
+                String filename = StringUtils.cleanPath(photos[i].get(j).getOriginalFilename());
+                System.out.println(filename);
+                Photo newPhoto = new Photo(filename, photos[i].get(j).getContentType(), photos[i].get(j).getBytes(), databaseToy);
+                photoRepository.save(newPhoto);
+            }
         }
 
         return new ResponseEntity<>(toyIds, HttpStatus.CREATED);
