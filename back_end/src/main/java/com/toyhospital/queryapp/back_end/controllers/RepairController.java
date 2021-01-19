@@ -41,6 +41,7 @@ public class RepairController {
 
         repairToUpdate.setName(repair.getName());
         repairToUpdate.setPrice(repair.getPrice());
+        repairToUpdate.setRepairDescription(repair.getRepairDescription());
         repairToUpdate.setToys(repair.getToys());
 
         repairRepository.save(repairToUpdate);

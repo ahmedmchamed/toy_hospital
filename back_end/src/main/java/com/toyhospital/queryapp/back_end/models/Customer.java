@@ -26,6 +26,9 @@ public class Customer {
     @Column(name = "customer_address")
     private String customerAddress;
 
+    @Column(name = "customer_read_status")
+    private boolean isCustomerRead;
+
     @JsonIgnoreProperties("customer")
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Toy> customerToys;
@@ -36,6 +39,7 @@ public class Customer {
         this.customerPhoneNumber = customerPhoneNumber;
         this.customerAddress = customerAddress;
         this.customerToys = new ArrayList<Toy>();
+        this.isCustomerRead = false;
     }
 
     public Customer() {};
@@ -90,5 +94,14 @@ public class Customer {
 
     public void setCustomerToys(List<Toy> customerToys) {
         this.customerToys = customerToys;
+    }
+
+
+    public boolean getIsCustomerRead() {
+        return this.isCustomerRead;
+    }
+
+    public void setIsCustomerRead(boolean isCustomerRead) {
+        this.isCustomerRead = isCustomerRead;
     }
 }

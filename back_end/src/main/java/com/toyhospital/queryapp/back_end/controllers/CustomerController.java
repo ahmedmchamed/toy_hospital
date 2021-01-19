@@ -52,9 +52,10 @@ public class CustomerController {
         Customer customerToUpdate = customerRepository.findById(id).get();
 
         customerToUpdate.setCustomerName(customer.getCustomerName());
-        customerToUpdate.setCustomerAddress(customer.getCustomerAddress());
         customerToUpdate.setCustomerEmail(customer.getCustomerEmail());
         customerToUpdate.setCustomerPhoneNumber(customer.getCustomerPhoneNumber());
+        customerToUpdate.setCustomerAddress(customer.getCustomerAddress());
+        customerToUpdate.setIsCustomerRead(customer.getIsCustomerRead());
         customerToUpdate.setCustomerToys(customer.getCustomerToys());
 
         customerRepository.save(customerToUpdate);

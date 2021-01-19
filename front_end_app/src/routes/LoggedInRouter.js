@@ -18,6 +18,8 @@ const LoggedInRouter = () => {
     useEffect(() => {
         userService.getToys()
         .then(response => {
+            console.log(response)
+            console.log(response.data)
             setToys(response.data)
         }, error => {
             console.log(error.data);
@@ -26,7 +28,10 @@ const LoggedInRouter = () => {
         })
         userService.getCustomers()
         .then(response => {
+            // console.log(response)
+            // console.log(response.data)
             setCustomers(response.data)
+            console.log(customers)
         }, error => {
             handleUnauthorisedResponse()
             console.error();
@@ -47,7 +52,7 @@ const LoggedInRouter = () => {
         })
     }, [])
 
-    //Might have to redo, this approach might kick us out a lot!
+    // Might have to redo, this approach might kick us out a lot!
     const handleUnauthorisedResponse = () => {
         AuthService.logout()
         window.location.href = "/login"

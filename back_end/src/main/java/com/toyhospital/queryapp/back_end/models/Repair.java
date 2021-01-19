@@ -20,6 +20,9 @@ public class Repair {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "repair_description")
+    private String repairDescription;
+
     @JsonIgnoreProperties({"repair"})
     @ManyToMany
     @JoinTable(
@@ -29,9 +32,10 @@ public class Repair {
     )
     private List<Toy> toys;
 
-    public Repair(String name, double price) {
+    public Repair(String name, double price, String repairDescription) {
         this.name = name;
         this.price = price;
+        this.repairDescription = repairDescription;
         this.toys = new ArrayList<Toy>();
     }
 
@@ -71,5 +75,13 @@ public class Repair {
 
     public void addToy(Toy toy) {
         this.toys.add(toy);
+    }
+
+    public String getRepairDescription() {
+        return this.repairDescription;
+    }
+
+    public void setRepairDescription(String repairDescription) {
+        this.repairDescription = repairDescription;
     }
 }
