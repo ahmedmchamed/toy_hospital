@@ -27,19 +27,19 @@ public class Customer {
     private String customerAddress;
 
     @Column(name = "customer_read_status")
-    private boolean isCustomerRead;
+    private Boolean isCustomerRead;
 
     @JsonIgnoreProperties("customer")
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Toy> customerToys;
 
-    public Customer(String customerName, String customerEmail, String customerPhoneNumber, String customerAddress) {
+    public Customer(String customerName, String customerEmail, String customerPhoneNumber, String customerAddress, Boolean isCustomerRead) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.customerPhoneNumber = customerPhoneNumber;
         this.customerAddress = customerAddress;
+        this.isCustomerRead = isCustomerRead;
         this.customerToys = new ArrayList<Toy>();
-        this.isCustomerRead = false;
     }
 
     public Customer() {};
@@ -97,11 +97,11 @@ public class Customer {
     }
 
 
-    public boolean getIsCustomerRead() {
+    public Boolean getIsCustomerRead() {
         return this.isCustomerRead;
     }
 
-    public void setIsCustomerRead(boolean isCustomerRead) {
+    public void setIsCustomerRead(Boolean isCustomerRead) {
         this.isCustomerRead = isCustomerRead;
     }
 }
