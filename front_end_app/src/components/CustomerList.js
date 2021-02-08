@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import { BrowserRouter as Router, Route, useHistory, Link} from 'react-router-dom'
+import { Route, useHistory, Link, Switch} from 'react-router-dom'
 import CustomerDetail from './CustomerDetail.js'
 import './CustomerDetail.css'
 
@@ -34,6 +34,9 @@ const CustomerList = ({customers}) => {
                     {customerLinks}
                 </li>
             </ul>
+            <Switch>
+                {customerRoutes}
+            </Switch>
             </>
         )
 }
