@@ -4,16 +4,10 @@ import './CustomerDetail.css'
 
 const CustomerDetail = ({customerName, customerAddress, customerEmail}) => {
 
+    console.log(customerName)
     return (
         <>
-            <ul>
-                <li>
-                    <a
-                        role="button">
-                            <span></span>
-                    </a>
-                </li>
-            </ul>
+            <h1>{customerName}</h1>
         </>
     )
 
