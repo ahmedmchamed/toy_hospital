@@ -1,6 +1,6 @@
 import React from "react"
 import { Redirect, Route } from "react-router-dom"
-import Login from "../components/Login"
+import Login from "../components/Staff/Login"
 
 const UnauthenticatedRoute = ({component: Login, appProps, ...rest}) => {
     

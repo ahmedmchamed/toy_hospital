@@ -1,6 +1,6 @@
 import React from "react"
-import { Link, Redirect } from "react-router-dom"
-import AuthService from "../services/auth.service"
+import { NavLink, Redirect } from "react-router-dom"
+import AuthService from "../../services/auth.service"
 
 const NavBar = (props) => {
 
@@ -12,13 +12,13 @@ const NavBar = (props) => {
     return (
         <ul>
             <li>
-                <Link to="/home">Toys</Link>
+                <NavLink to="/home">Toys</NavLink>
             </li>
             <li>
-                <Link to="/customers">Customers</Link>
+                <NavLink to="/customers">Customers</NavLink>
             </li>
             <li>
-                <Link to="/admin">Admin</Link>
+                <NavLink to="/admin">Admin</NavLink>
             </li>
             <li>
                 <button onClick={handleLogout}>Logout</button>

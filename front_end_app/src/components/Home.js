@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import userService from "../services/user.service"
 import AuthService from "../services/auth.service"
-import Toy from "./Toy"
+import Toy from "./Toys/Toy"
 
 
 const Home = ({toys}) => {

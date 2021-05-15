@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import AuthService from "../services/auth.service"
+import AuthService from "../../services/auth.service"
 
 const Login = (props) => {
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Home from "../components/Home"
-import NavBar from "../components/NavBar"
+import NavBar from "../components/Layout/NavBar"
 import CustomerList from "../components/Customers/CustomerList"
-import Admin from "../components/Admin"
+import Admin from "../components/Staff/Admin"
 import userService from "../services/user.service"
 import AuthService from "../services/auth.service"
 

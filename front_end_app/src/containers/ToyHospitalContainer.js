@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Login from "../components/Login"
+import Login from "../components/Staff/Login"
 import LoggedInRouter from '../routes/LoggedInRouter'
 import AuthenticatedRoute from "../routes/AuthenticatedRoute"
 import UnauthenticatedRoute from "../routes/UnauthenticatedRoute"
