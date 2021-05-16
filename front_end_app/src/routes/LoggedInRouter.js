@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Home from "../components/Home"
 import NavBar from "../components/Layout/NavBar"
 import CustomerList from "../components/Customers/CustomerList"
+import CustomerDetail from "../components/Customers/CustomerDetail"
 import Admin from "../components/Staff/Admin"
 import userService from "../services/user.service"
 import AuthService from "../services/auth.service"
@@ -58,15 +59,23 @@ const LoggedInRouter = () => {
         window.location.href = "/login"
     }
 
-
     return (
         <Router>
             <>
                 <NavBar />
                 <Switch>
-                    <Route path="/home" render={(props) => (<Home toys={toys}/>)}/>
-                    <Route path="/customers" render={(props) => (<CustomerList customers={customers} toys={toys} />)} />
-                    <Route path="/admin" render={(props) => (<Admin repairs={repairs} staff={staff}/>)} />
+                    <Route path="/home">
+                        <Home toys={toys}/>
+                    </Route>
+                    <Route exact path="/customers">
+                        <CustomerList customers={customers} toys={toys} />
+                    </Route>
+                    <Route path="/customers/:customerName/:customerId">
+                        <CustomerDetail />
+                    </Route>
+                    <Route exact path="/admin">
+                        <Admin repairs={repairs} staff={staff} />
+                    </Route>
                 </Switch>
             </>
         </Router>
