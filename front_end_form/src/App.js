@@ -1,12 +1,16 @@
 import React from 'react';
 import ToyForm from './containers/form';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
 function App() {
 
 
   return (
-    <ToyForm ></ToyForm>
+    <Router>
+      <ToyForm />
+    </Router>
+    
   );
 }
 
